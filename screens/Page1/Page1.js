@@ -63,11 +63,13 @@ setStat(false)
    <View style={{flex:1, height:"100%"}}>
      <Text style={{color: "#000", fontSize: 20}}>     Agregar nueva tarea:</Text>
      <TextInput onChangeText={text => setText(text)}
-        defaultValue={text} style={{width: "70%", height: "30px",borderRadius:"20px",marginLeft:"15px",backgroundColor: "#fff", marginTop: "5%"}}>
+        defaultValue={text} style={{width: "70%", height: 30,borderRadius:20,marginLeft:15,backgroundColor: "#fff", marginTop: "5%"}}>
      </TextInput>
 
-     <TouchableOpacity style={stylesh.buttonAdd} onPress={writeUserData}> <Text style={stylesh.buttonText3}><Ionicons name="md-save-outline" size={20}></Ionicons></Text>
-     </TouchableOpacity>     
+     <TouchableOpacity style={stylesh.buttonAdd} onPress={writeUserData}> <Ionicons name="md-save-outline" size={20} style={stylesh.buttonText3}></Ionicons>
+     </TouchableOpacity> 
+
+     <FlatList    
      data={props.items}
      
      renderItem={({item}) => 
@@ -78,14 +80,19 @@ setStat(false)
  
            <Text style={stylesh.textView2}>Tarea:</Text>
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
-           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item.task)}><Text style={stylesh.buttonText2}><Ionicons name="md-medal-outline" size={20}></Ionicons></Text></TouchableOpacity>
-           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}><Text style={stylesh.buttonText2}><Ionicons name="trash-outline" size={20}></Ionicons></Text></TouchableOpacity>
+           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item.task)}>
+             <Ionicons name="md-medal-outline" size={20} style={stylesh.buttonText2}></Ionicons>
+             </TouchableOpacity>
+           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}>
+             <Ionicons name="trash-outline" size={20} style={stylesh.buttonText2}></Ionicons>
+             </TouchableOpacity>
          </View>
      
        }
 
      keyExtractor={(item, index) => index.toString()}
      
+     />
    </View>
   );
 
@@ -112,7 +119,7 @@ const stylesh = StyleSheet.create({
     borderRadius: 50,
     backgroundColor: "#1D8A59",
 
-    position: "absolute", width: "20%", marginTop: "48px", right: 10, zIndex:90
+    position: "absolute", width: "20%", marginTop: 48, right: 10, zIndex:90
   },
   buttonText3: {
     position: "relative",
