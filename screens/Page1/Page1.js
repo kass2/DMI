@@ -76,7 +76,7 @@ setStat(false)
 
       
      
-         <View style={item.status ? {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 20, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "#1D8A59", margin: 10, borderRadius: 4}}>
+         <View style={item.status ?  {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 20, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "#1D8A59", margin: 10, borderRadius: 4}}>
  
            <Text style={stylesh.textView2}>Tarea:</Text>
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
