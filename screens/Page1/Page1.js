@@ -65,7 +65,7 @@ setStat(false)
      <TextInput onChangeText={text => setText(text)}
         defaultValue={text} style={{width: "80%", height: "20%", backgroundColor: "#fff", marginTop: "5%"}}>
      </TextInput>
-     <TouchableOpacity style={{position: "absolute", backgroundColor: "green", width: "20%", height: "9%", marginTop: "10%", right: 10, zIndex:90}} onPress={writeUserData}></TouchableOpacity>
+     <TouchableOpacity style={{position: "absolute", backgroundColor: "green", width: "20%", height: "11%", marginTop: "12%", right: 10, zIndex:90}} onPress={writeUserData}></TouchableOpacity>
 
  <FlatList
      
