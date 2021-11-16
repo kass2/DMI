@@ -15,6 +15,7 @@ import logo from "../../media/images/fod.png";
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
+  const [credentials, setUID] = useState("");
   const [pwd, setPwd] = useState("");
 
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
@@ -32,7 +33,9 @@ const LoginPage = () => {
       // When the auth changes we will receive a user
       if (user) {
         // if there is a valid user we will replace the current screen for the Home one.
-        navigation.replace("Home");
+        navigation.navigate('Home', {
+          itemId: user.uid,
+        });
       }
     });
     // When the component unmounts we return the same constant to unsuscribe to the listener
@@ -69,7 +72,7 @@ const LoginPage = () => {
       .then((userCredentials) => {
         // then is a fullfilled promise
         const user = userCredentials.user;
-        console.log(user.email);
+
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -81,8 +84,9 @@ const LoginPage = () => {
       .signInWithEmailAndPassword(email, pwd)
       .then((userCredentials) => {
         // then is a fullfilled promise
+        setUID(userCredentials)
         const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
+        
       })
       .catch((error) => {
         // catch is a rejected promise
