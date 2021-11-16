@@ -67,15 +67,15 @@ export default function Page2(props) {
     <View style={stylesh.MainContainer}>
          
              <View  style={stylesh.MainContainer}>
-            <ImageBackground source={require('../../assets/img/65avion.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}></ImageBackground>
+            <ImageBackground source={require('../../assets/img/fondo.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}></ImageBackground>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
              <ImageBackground source={ !pic ? require('../../assets/img/me.jpg' ): {uri: pic}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
-               <Text style={{marginTop: 50}}>Hecho por: undefined</Text>
-               <Text style={{fontSize: 18, marginTop: 70}}>Universidad Tecnológica de Aguascalientes</Text>
-               <Text style={{fontSize: 27, marginTop: 20, fontWeight: "bold", color: "blue"}}>10 A</Text>
+               <Text style={{marginTop: 40, fontSize: 24, color:"#030303", fontWeight: "bold"}}>Hecho por: undefined</Text>
+               <Text style={{fontSize: 19, marginTop: 20, color:"#030303",fontWeight: "bold",textAlign:"center"}}>Universidad Tecnológica de Aguascalientes</Text>
+               <Text style={{fontSize: 27, marginTop: 15, fontWeight: "bold", color: "#1D8A59"}}>10 A</Text>
              </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "red", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 33}}>Subir foto</Text></TouchableOpacity>
-            
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 32, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
+
            </View>
            {state?(
               <View style={{position:'absolute',zIndex:100, width:"80%", height:"20%", backgroundColor: "black", opacity: 0.6, borderRadius:20}}>
@@ -229,7 +229,7 @@ const stylesh = StyleSheet.create({
       justifyContent: 'center',
       flex:1,
       margin: 5,
-      marginTop: (Platform.OS === 'ios') ? 20 : 0,
+      marginTop: 20,
      
   }, 
   imageView: {

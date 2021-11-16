@@ -13,7 +13,7 @@ import {
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
 import { auth } from "../../firebase";
-import logo from "../../media/images/fod.png";
+import logo from "../../media/images/agenda.png";
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
@@ -106,10 +106,9 @@ const LoginPage = () => {
   return (
     // KeyboardAvoidingView is a type of view that will push the content up when a keyboard shows
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-       
+      
        <Image source={logo}  style={styles.logo} />
       <View style={styles.inputContainer}>
-       
         {/* We have 2 text inputs that will set the state our our constants (email, pdw) */}
         <TextInput
           placeholder="Email"
@@ -167,7 +166,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    backgroundColor: "#556b2f",
+    backgroundColor: "#157B33",
     width: "130%",
     padding: 15,
     borderRadius: 10,
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
   logo: {
     marginBottom:20,
     resizeMode: "contain",
-              height: 100,
-              width: 200
+              height: 180,
+              width: 280
   },
 });

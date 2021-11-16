@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, To
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 export default function Page2(props) {
@@ -69,9 +70,11 @@ setStat(false)
    <View>
      <Text style={{color: "#000", fontSize: 20}}>Agregar nueva tarea:</Text>
      <TextInput onChangeText={text => setText(text)}
-        defaultValue={text} style={{width: "80%", height: "20%", backgroundColor: "#fff", marginTop: "5%"}}>
+        defaultValue={text} style={{width: "70%", height: 30, marginLeft:15,backgroundColor: "#fff", marginTop: "5%"}}>
      </TextInput>
-     <TouchableOpacity style={{position: "absolute", backgroundColor: "green", width: "20%", height: "9%", marginTop: "10%", right: 10, zIndex:90}} onPress={writeUserData}></TouchableOpacity>
+     <TouchableOpacity style={{position: "absolute", borderRadius:50,backgroundColor: "#1D8A59", width: "20%", height: "9%", marginTop: 48, right: 10, zIndex:90}} onPress={writeUserData}>
+        <Ionicons name="md-save-outline" size={20} style={{position:'relative',fontSize: 20,color:'white',textAlign:'center'}}></Ionicons>
+     </TouchableOpacity>
 
  <FlatList
      
@@ -85,8 +88,12 @@ setStat(false)
  
            <Text style={stylesh.textView2}>Tarea:</Text>
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
-           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item)}></TouchableOpacity>
-           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}></TouchableOpacity>
+           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item)}>
+              <Ionicons name="md-medal-outline" size={20} style={{position:'relative',fontSize:20,color:'white',padding:12,textAlign:'center'}}></Ionicons>
+           </TouchableOpacity>
+           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}>
+              <Ionicons name="trash-outline" size={20} style={{position:'relative',fontSize:20,color:'white',padding:12,textAlign:'center'}}></Ionicons>
+           </TouchableOpacity>
          </View>
      
        }
