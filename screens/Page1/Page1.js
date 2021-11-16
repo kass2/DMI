@@ -4,8 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, To
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
-
-
+import Ionicons from 'react-native-vector-icons/Ionicons';
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(true)
@@ -29,13 +28,14 @@ return (
 }
 
 function writeUserData() {
+  
   set(ref(db, props.uid +  '/' + text), {
     
     task: text,
-    status: true
-   
+    status: true,
   });
-  console.log("dsad")
+  console.log("dsad");
+  
 }
 
 function deleteData(tarea) {
@@ -60,34 +60,32 @@ setStat(false)
 
 
   return (
-   <View>
-     <Text style={{color: "#000", fontSize: 20}}>Agregar nueva tarea:</Text>
+   <View style={{flex:1, height:"100%"}}>
+     <Text style={{color: "#000", fontSize: 20}}>     Agregar nueva tarea:</Text>
      <TextInput onChangeText={text => setText(text)}
-        defaultValue={text} style={{width: "80%", height: "20%", backgroundColor: "#fff", marginTop: "5%"}}>
+        defaultValue={text} style={{width: "70%", height: "30px",borderRadius:"20px",marginLeft:"15px",backgroundColor: "#fff", marginTop: "5%"}}>
      </TextInput>
-     <TouchableOpacity style={{position: "absolute", backgroundColor: "green", width: "20%", height: "11%", marginTop: "12%", right: 10, zIndex:90}} onPress={writeUserData}></TouchableOpacity>
 
- <FlatList
-     
+     <TouchableOpacity style={stylesh.buttonAdd} onPress={writeUserData}> <Text style={stylesh.buttonText3}><Ionicons name="md-save-outline" size={20}></Ionicons></Text>
+     </TouchableOpacity>     
      data={props.items}
      
      renderItem={({item}) => 
 
       
      
-         <View style={item.status ? {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 10, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "green", margin: 10, borderRadius: 4}}>
+         <View style={item.status ?  {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 20, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "#1D8A59", margin: 10, borderRadius: 4}}>
  
            <Text style={stylesh.textView2}>Tarea:</Text>
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
-           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item.task)}></TouchableOpacity>
-           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}></TouchableOpacity>
+           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item.task)}><Text style={stylesh.buttonText2}><Ionicons name="md-medal-outline" size={20}></Ionicons></Text></TouchableOpacity>
+           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}><Text style={stylesh.buttonText2}><Ionicons name="trash-outline" size={20}></Ionicons></Text></TouchableOpacity>
          </View>
      
        }
 
      keyExtractor={(item, index) => index.toString()}
      
-     />
    </View>
   );
 
@@ -109,6 +107,24 @@ const stylesh = StyleSheet.create({
   },
   valid: {
       color: "green",
+  },
+  buttonAdd: {
+    borderRadius: 50,
+    backgroundColor: "#1D8A59",
+
+    position: "absolute", width: "20%", marginTop: "48px", right: 10, zIndex:90
+  },
+  buttonText3: {
+    position: "relative",
+    fontSize: 20,
+    color: "white",
+    textAlign:"center"
+  },
+  buttonText2: {
+    position: "relative",
+    fontSize: 20,
+    color: "white",
+    paddingTop:12
   },
   normalText: {
       fontSize: 36,
@@ -230,7 +246,7 @@ const stylesh = StyleSheet.create({
       justifyContent: 'center',
       flex:1,
       margin: 5,
-      marginTop: (Platform.OS === 'ios') ? 20 : 0,
+      marginTop:20,
      
   }, 
   imageView: {
@@ -244,34 +260,29 @@ const stylesh = StyleSheet.create({
    
   textView: {
    
-      width:'50%', 
+      width:'28%', 
       textAlignVertical:'center',
       padding:10,
       color: '#000',
-      fontSize: 22
-   
+      fontSize: 22,
   },
   textView2: {
    
-    width:'20%', 
+    width:'25%', 
     textAlignVertical:'center',
     padding:10,
     color: '#000',
     fontSize: 22
   },
 borrar:{
-  width: 60,
-  height: "100%",
+  width:"auto",
   position: "absolute",
-  right: "20%",
-  backgroundColor: "#5e2129"
+  right: "15%",
 },
 completed:{
-  width: 60,
-  height: "100%",
+  width:"auto",
   position: "absolute",
-  right: "5%",
-  backgroundColor: "green"
+  right: "2%",
 },
   imageViewFin: {
    
