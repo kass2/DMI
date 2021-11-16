@@ -1,5 +1,7 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
+import { db } from "../../firebase";
+import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import {
   Image,
   KeyboardAvoidingView,
@@ -17,7 +19,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [credentials, setUID] = useState("");
   const [pwd, setPwd] = useState("");
-
+  const [state, setStat] = useState(null)
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
   const navigation = useNavigation();
 
@@ -27,20 +29,16 @@ const LoginPage = () => {
   // -With a dependency array with dependecies: it will execute when the dependecies change
 
   useEffect(() => {
-    // We call the function onAuthStateChanged which is a listener that will be checking for changes on the current
-    // state of authentiation.
-    const unsuscribe = auth.onAuthStateChanged((user) => {
-      // When the auth changes we will receive a user
-      if (user) {
-        // if there is a valid user we will replace the current screen for the Home one.
-        navigation.navigate('Home', {
-          itemId: user.uid,
-        });
-      }
-    });
-    // When the component unmounts we return the same constant to unsuscribe to the listener
-    return unsuscribe;
-  }, []);
+    if(state){
+      navigation.navigate('Home',{itemId: state.user.uid});
+    }
+  }, [state]);
+
+  useEffect(()=>{
+    if(credentials){
+      writeUserData();
+    }
+  },[credentials])
   // This comments apply for both functions, you just need to change the name of the function called from auth
   // We use two function(createUserWithEmailAndPassword,signInWithEmailAndPassword ) from the auth instance
   // It receives email and password and creates or authenticate a new account on firebase
@@ -66,13 +64,15 @@ const LoginPage = () => {
   // - pending:  when the promise execute and we don't know the final status yet
   // - fullfilled: when the promise executed correctly
   // - rejected: when there is an error or we reject the promise because it didn't return the expected result
+  
   const handleSignup = () => {
     auth
       .createUserWithEmailAndPassword(email, pwd)
       .then((userCredentials) => {
         // then is a fullfilled promise
+        console.log(userCredentials.user.uid);
+        setUID(userCredentials.user.uid);
         const user = userCredentials.user;
-
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -84,15 +84,24 @@ const LoginPage = () => {
       .signInWithEmailAndPassword(email, pwd)
       .then((userCredentials) => {
         // then is a fullfilled promise
-        setUID(userCredentials)
         const user = userCredentials.user;
-        
+        setStat(userCredentials);
       })
       .catch((error) => {
         // catch is a rejected promise
         alert(error.message);
       });
   };
+
+  function writeUserData() {
+    console.log(credentials)
+    set(ref(db, credentials +  '/' + 'profile'), {
+      
+      Image: '../../assets/img/me.jpg'
+     
+    });
+    /* console.log("dsad") */
+  }
 
   return (
     // KeyboardAvoidingView is a type of view that will push the content up when a keyboard shows

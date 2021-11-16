@@ -15,7 +15,7 @@ export default function Page2(props) {
     <Item title={item.name} />
   );
   
-  console.log("Pagina2 ",props)
+  /* console.log("Pagina2 ",props) */
 const FlatListItemSeparator = () => {
 return (
   <View
@@ -35,7 +35,7 @@ function writeUserData() {
     status: true
    
   });
-  console.log("dsad")
+  /* console.log("dsad") */
 }
 
 function deleteData(tarea) {
@@ -44,8 +44,14 @@ function deleteData(tarea) {
 }
 
 function doneTask(tarea) {
-  let knownLocationRef = db.ref(props.uid +'/' + tarea);
-  knownLocationRef.update({ status: false});
+  let knownLocationRef = db.ref(props.uid +'/' + tarea.task);
+  if(tarea.status){
+    knownLocationRef.update({ status: false});
+  }else{
+    knownLocationRef.update({ status: true});
+  }
+  
+  /* console.log(tarea.status); */
 }
 
 
@@ -79,7 +85,7 @@ setStat(false)
  
            <Text style={stylesh.textView2}>Tarea:</Text>
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
-           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item.task)}></TouchableOpacity>
+           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item)}></TouchableOpacity>
            <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}></TouchableOpacity>
          </View>
      

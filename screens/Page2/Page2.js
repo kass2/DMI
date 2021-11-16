@@ -3,14 +3,30 @@ import React, { useState, useEffect ,setState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { auth, db, storage } from "../../firebase";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
-  const [state, setStat] = React.useState(true)
+  const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
 
- async function onChooseImagePress (params) {
+ async function Gallery (params) {
     let result = await ImagePicker.launchImageLibraryAsync()
+    //let result = await ImagePicker.launchImageLibraryAsync();
+
+    if (!result.cancelled) {
+      uploadImage(result.uri, "test-image")
+        .then(() => {
+         
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        });
+    }
+  }
+
+  async function Camera (params) {
+    let result = await ImagePicker.launchCameraAsync();
     //let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
@@ -31,12 +47,22 @@ export default function Page2(props) {
     var ref = storage.ref().child("images/" + imageName);
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
-          console.log(url)
+          /* console.log(url) */
           Alert.alert("Imagen subida");
           setPic(url)
       });
     })
   }
+
+  function alarta(){
+    if(state){
+      setStat(false);
+    }else{
+      setStat(true);
+    }
+    
+  }
+
   return (
     <View style={stylesh.MainContainer}>
          
@@ -48,9 +74,16 @@ export default function Page2(props) {
                <Text style={{fontSize: 18, marginTop: 70}}>Universidad Tecnológica de Aguascalientes</Text>
                <Text style={{fontSize: 27, marginTop: 20, fontWeight: "bold", color: "blue"}}>10 A</Text>
              </View>
-             <TouchableOpacity onPress={onChooseImagePress} style={{backgroundColor: "red", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 33}}>Subir foto</Text></TouchableOpacity>
-
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "red", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 33}}>Subir foto</Text></TouchableOpacity>
+            
            </View>
+           {state?(
+              <View style={{position:'absolute',zIndex:100, width:"80%", height:"20%", backgroundColor: "black", opacity: 0.6, borderRadius:20}}>
+              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:20}}><Ionicons name='ios-images-outline' color='red' size={80}></Ionicons></TouchableOpacity>
+              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:20}}><Ionicons name='ios-camera-outline' color='red' size={80}></Ionicons></TouchableOpacity>
+              </View>
+           ):(<View></View>)}
+           
          
    </View>
   );
