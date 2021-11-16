@@ -1,8 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
-import { db } from "../../firebase";
+import { db, auth, updateProfile} from "../../firebase";
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   StyleSheet,
@@ -12,7 +13,6 @@ import {
   View,
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
-import { auth } from "../../firebase";
 import logo from "../../media/images/agenda.png";
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
@@ -30,7 +30,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(state){
-      navigation.navigate('Home',{itemId: state.user.uid});
+
+      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email});
     }
   }, [state]);
 
@@ -70,9 +71,10 @@ const LoginPage = () => {
       .createUserWithEmailAndPassword(email, pwd)
       .then((userCredentials) => {
         // then is a fullfilled promise
-        console.log(userCredentials.user.uid);
-        setUID(userCredentials.user.uid);
+     //   console.log(userCredentials.user.uid);
+      //  setUID(userCredentials.user.uid);
         const user = userCredentials.user;
+        Alert.alert("Cuenta creada")
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -85,6 +87,7 @@ const LoginPage = () => {
       .then((userCredentials) => {
         // then is a fullfilled promise
         const user = userCredentials.user;
+        console.log(userCredentials)
         setStat(userCredentials);
       })
       .catch((error) => {
@@ -94,14 +97,14 @@ const LoginPage = () => {
   };
 
   function writeUserData() {
-    console.log(credentials)
-    set(ref(db, credentials +  '/' + 'profile'), {
-      
-      Image: '../../assets/img/me.jpg'
-     
-    });
-    /* console.log("dsad") */
-  }
+    var user = auth.currentUser;
+    user.updateProfile({  
+      //displayName: "Jane Q. User",  
+      photoURL: "../../assets/img/me.jpg"}).then(function()
+       { 
+         console.log("Update")
+      }
+    )}
 
   return (
     // KeyboardAvoidingView is a type of view that will push the content up when a keyboard shows

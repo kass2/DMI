@@ -1,11 +1,13 @@
 // Import firebase
 /* import * as firebase from "firebase"; */
 import firebase from 'firebase/compat/app';
+import {updateProfile } from "firebase/auth";
+
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 import 'firebase/compat/database';
-import 'firebase/compat/storage'
-// TODO: Add SDKs for Firebase products that you want to use
+import 'firebase/compat/storage';
+  // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration, you have to paste here the object that comes from firebase
@@ -34,6 +36,6 @@ if (firebase.apps.length === 0 ) {
 const auth = firebase.auth()
 const db = firebase.database()
 const storage = firebase.storage()
-export { auth, db, storage};
+export { auth, db, storage, updateProfile};
 
 

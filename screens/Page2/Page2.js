@@ -10,9 +10,16 @@ export default function Page2(props) {
   const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
 
- async function Gallery (params) {
+  useEffect(() => {
+    console.log("page2", props)
+  },[])
+
+ async function Gallery (props) {
     let result = await ImagePicker.launchImageLibraryAsync()
     //let result = await ImagePicker.launchImageLibraryAsync();
+
+
+
 
     if (!result.cancelled) {
       uploadImage(result.uri, "test-image")
@@ -30,7 +37,7 @@ export default function Page2(props) {
     //let result = await ImagePicker.launchImageLibraryAsync();
 
     if (!result.cancelled) {
-      uploadImage(result.uri, "test-image")
+      uploadImage(result.uri)
         .then(() => {
          
         })
@@ -40,19 +47,30 @@ export default function Page2(props) {
     }
   }
 
-  async function uploadImage(uri, imageName) {
+  async function uploadImage(uri) {
     const response = await fetch(uri);
     const blob = await response.blob();
-
-    var ref = storage.ref().child("images/" + imageName);
+    let rand = generateRandomString(6);
+    var ref = storage.ref().child("images/" + rand);
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
           /* console.log(url) */
           Alert.alert("Imagen subida");
-          setPic(url)
+         writeUserData(url)
       });
     })
   }
+
+  const  generateRandomString = (num) => {
+    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result1= ' ';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < num; i++ ) {
+        result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+
+    return result1;
+}
 
   function alarta(){
     if(state){
@@ -63,14 +81,25 @@ export default function Page2(props) {
     
   }
 
+  function writeUserData(url) {
+    var user = auth.currentUser;
+    user.updateProfile({  
+      //displayName: "Jane Q. User",  
+      photoURL: url}).then(function()
+       { 
+         props.photo(url)
+         console.log("Update")
+      }
+    )}
+
   return (
     <View style={stylesh.MainContainer}>
          
              <View  style={stylesh.MainContainer}>
             <ImageBackground source={require('../../assets/img/fondo.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}></ImageBackground>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
-             <ImageBackground source={ !pic ? require('../../assets/img/me.jpg' ): {uri: pic}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
-               <Text style={{marginTop: 40, fontSize: 24, color:"#030303", fontWeight: "bold"}}>Hecho por: undefined</Text>
+             <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
+               <Text style={{marginTop: 40, fontSize: 24, color:"#030303", fontWeight: "bold"}}>Email: {props.email}</Text>
                <Text style={{fontSize: 19, marginTop: 20, color:"#030303",fontWeight: "bold",textAlign:"center"}}>Universidad Tecnológica de Aguascalientes</Text>
                <Text style={{fontSize: 27, marginTop: 15, fontWeight: "bold", color: "#1D8A59"}}>10 A</Text>
              </View>

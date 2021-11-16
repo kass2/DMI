@@ -72,7 +72,7 @@ setStat(false)
      <TextInput onChangeText={text => setText(text)}
         defaultValue={text} style={{width: "70%", height: 30, marginLeft:15,backgroundColor: "#fff", marginTop: "5%"}}>
      </TextInput>
-     <TouchableOpacity style={{position: "absolute", borderRadius:50,backgroundColor: "#1D8A59", width: "20%", height: "9%", marginTop: 48, right: 10, zIndex:90}} onPress={writeUserData}>
+     <TouchableOpacity style={{position: "absolute", borderRadius:50,backgroundColor: "#1D8A59", width: "20%", height: 25, marginTop: 48, right: 10, zIndex:90}} onPress={writeUserData}>
         <Ionicons name="md-save-outline" size={20} style={{position:'relative',fontSize: 20,color:'white',textAlign:'center'}}></Ionicons>
      </TouchableOpacity>
 
