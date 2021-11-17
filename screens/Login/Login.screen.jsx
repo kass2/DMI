@@ -31,7 +31,7 @@ const LoginPage = () => {
   useEffect(() => {
     if(state){
 
-      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email});
+      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navigation:navigation});
     }
   }, [state]);
 

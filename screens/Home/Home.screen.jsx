@@ -18,11 +18,12 @@ const Tab = createBottomTabNavigator();
 
 const HomePage = ({ route }) => {
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
-  const navigation = useNavigation();
+  /* const navigation = useNavigation(); */
   const [Lalista, setArrayHolder] = React.useState([]);
   const [photoURL, setPhoto ] = React.useState(route.params.photoURL)
   const { itemId, otherParams } = route.params;
   const { email, otherEmail } = route.params;
+  const { navigation, otherNavigation } = route.params;
 
   // We will make a simple call to auth.signOut() which is also a promise based function and if it fullfills
   // we redirect the user to Login
@@ -105,7 +106,7 @@ const HomePage = ({ route }) => {
         })}
       >
         <Tab.Screen name="Lista" options={{ tabBarBadge: Lalista.length }}>{(props) => <Page1{...props} items={Lalista} uid={itemId}/>}</Tab.Screen>
-        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navigation={navigation}/>}</Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

@@ -69,16 +69,16 @@ export default function Page2(props) {
     })
   }
 
-  const handleSignOut = () => {
+  function handleSignOut() {
     auth
       .signOut()
       .then(() => {
-        navigation.replace('Login');
+        props.navigation.navigate('Login')
       })
       .catch((error) => {
         alert(error.message);
       });
-  };
+  }
 
   const logout = async ()=>{
     await firebase.auth().signOut();
