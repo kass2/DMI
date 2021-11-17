@@ -2,21 +2,26 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from "@react-navigation/core";
 import { auth, db, storage } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import Login from '../Login/index'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-const navigation = useNavigation();
+
 
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
-
+  const navigation = useNavigation();
+  /* const navigation = props.navigation; */
 
   useEffect(() => {
     console.log("page2", props)
   },[])
-
+  
  async function Gallery (props) {
     let result = await ImagePicker.launchImageLibraryAsync()
     //let result = await ImagePicker.launchImageLibraryAsync();
@@ -68,12 +73,16 @@ export default function Page2(props) {
     auth
       .signOut()
       .then(() => {
-        navigation.replace("Login");
+        navigation.replace('Login');
       })
       .catch((error) => {
         alert(error.message);
       });
   };
+
+  const logout = async ()=>{
+    await firebase.auth().signOut();
+  }
   
   const  generateRandomString = (num) => {
     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';

@@ -86,7 +86,7 @@ setStat(false)
      
          <View style={item.status ? {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 10, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "green", margin: 10, borderRadius: 4}}>
  
-           <Text style={stylesh.textView2}>Tarea:</Text>
+           {/* <Text style={stylesh.textView2}>Tarea:</Text> */}
            <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
            <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item)}>
               <Ionicons name="md-medal-outline" size={20} style={{position:'relative',fontSize:20,color:'white',padding:12,textAlign:'center'}}></Ionicons>
@@ -276,15 +276,15 @@ borrar:{
   width: 60,
   height: "100%",
   position: "absolute",
-  right: "20%",
-  backgroundColor: "#5e2129"
+  right: "15%",
+  /* backgroundColor: "#5e2129" */
 },
 completed:{
   width: 60,
   height: "100%",
   position: "absolute",
-  right: "5%",
-  backgroundColor: "green"
+  right: "2%",
+  /* backgroundColor: "green" */
 },
   imageViewFin: {
    
