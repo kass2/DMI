@@ -8,12 +8,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from '../Login/index'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { ActivityIndicator} from "react-native";
 
 
 
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
+  const [spiner, setSpiner] = React.useState(false)
   const [pic, setPic] = React.useState(null)
   const navigation = useNavigation();
   /* const navigation = props.navigation; */
@@ -56,6 +58,8 @@ export default function Page2(props) {
   }
 
   async function uploadImage(uri) {
+    cargarload(true);
+    alarta(false);
     const response = await fetch(uri);
     const blob = await response.blob();
     let rand = generateRandomString(6);
@@ -63,6 +67,7 @@ export default function Page2(props) {
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
           /* console.log(url) */
+          cargarload(false);
           Alert.alert("Imagen subida");
          writeUserData(url)
       });
@@ -115,10 +120,21 @@ export default function Page2(props) {
       }
     )}
 
+    function cargarload(state){
+      setSpiner(state);
+    }
+
   return (
     <View style={stylesh.MainContainer}>
          
              <View  style={stylesh.MainContainer}>
+             {spiner?(
+                <View style={{backgroundColor:'white',width:'10%',height:'6%', borderRadius:100,position:'absolute',zIndex:999}}>
+                  <ActivityIndicator size="large" style={{zIndex:999}} color="#06bcee" />
+                </View>
+             )
+             :(<View></View>)}
+             
             <ImageBackground source={require('../../assets/img/fondo.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}></ImageBackground>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
              <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
