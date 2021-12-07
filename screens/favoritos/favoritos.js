@@ -1,17 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { useNavigation } from "@react-navigation/core";
-import { auth, db, storage } from "../../firebase";
+import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import { getDatabase, ref, set ,onValue, push} from "firebase/database";
+import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Login from '../Login/index'
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 
-
-export default function Page2(props) {
+export default function favoritos(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
@@ -83,71 +79,29 @@ export default function Page2(props) {
   const logout = async ()=>{
     await firebase.auth().signOut();
   }
-  
-  const  generateRandomString = (num) => {
-    const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result1= ' ';
-    const charactersLength = characters.length;
-    for ( let i = 0; i < num; i++ ) {
-        result1 += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-
-    return result1;
-}
-
-  function alarta(){
-    if(state){
-      setStat(false);
-    }else{
-      setStat(true);
-    }
-    
-  }
-
-  function writeUserData(url) {
-    var user = auth.currentUser;
-    user.updateProfile({  
-      //displayName: "Jane Q. User",  
-      photoURL: url}).then(function()
-       { 
-         props.photo(url)
-         console.log("Update")
-      }
-    )}
-
-  return (
-    <View style={stylesh.MainContainer}>
+ 
+return (
+  <View style={stylesh.MainContainer}>
          
-             <View  style={stylesh.MainContainer}>
+    <View  style={stylesh.MainContainer}>
             <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
-             <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
-             <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
-               <Text style={{marginTop: 20, fontSize: 20, color:"#030303", fontWeight: "bold"}}>
-               <Ionicons name="mail" size={20}></Ionicons>
-                 {props.email}</Text>
-               <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
+        
+                 <Text style={{fontWeight:"bold", fontSize:30}}>Lista de Favoritos</Text>
+              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}} ></ImageBackground>
+                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
-               {props.telefono}
-               <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
+               Nombre del Producto:
+               Precio:
+               <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
-               <Text style={{fontSize: 23, marginTop: 10, fontWeight: "bold", color: "#030303"}}>
-               <Ionicons name="call" size={20}></Ionicons>
-               {props.direccion}
-               <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
-               </Text>
-             </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 505, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
-             <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
-           </View>
-           {state?(
-              <View style={{position:'absolute',zIndex:100, width:"40%", height:"10%", backgroundColor: "#FFBF00", opacity: 0.9, borderRadius:20, textAlign:"center"}}>
-              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:12}}><Ionicons name='ios-images-outline' color='white' size={30}></Ionicons></TouchableOpacity>
-              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:12}}><Ionicons name='ios-camera-outline' color='white' size={30}></Ionicons></TouchableOpacity>
+
               </View>
-           ):(<View></View>)}
+      </View>
+  </View>
+             
            
          
-   </View>
   );
 
 }

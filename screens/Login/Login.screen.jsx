@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
-import logo from "../../media/images/agenda.png";
+import logo from "../../media/images/fod.png";
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
