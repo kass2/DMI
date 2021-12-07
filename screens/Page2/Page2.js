@@ -115,10 +115,6 @@ export default function Page2(props) {
                {props.direccion}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
-
-               <Text style={{marginTop: 40, fontSize: 24, color:"#030303", fontWeight: "bold"}}>Email: {props.email}</Text>
-               <Text style={{fontSize: 19, marginTop: 20, color:"#030303",fontWeight: "bold",textAlign:"center"}}>Universidad Tecnológica de Aguascalientes</Text>
-               <Text style={{fontSize: 27, marginTop: 15, fontWeight: "bold", color: "#1D8A59"}}>10 A</Text>
              </View>
              <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 32, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
 
