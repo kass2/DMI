@@ -5,7 +5,8 @@ import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from "@react-navigation/core";
 import { auth, db, storage } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import Login from '../Login/index'
+import Login from '../Login/index';
+import Info from '../Info/index';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { RecaptchaVerifier } from "firebase/auth";
@@ -27,12 +28,13 @@ export default function Page2(props) {
     console.log("page2", props)
   },[])
   
+
+
+
+  
  async function Gallery (props) {
     let result = await ImagePicker.launchImageLibraryAsync()
     //let result = await ImagePicker.launchImageLibraryAsync();
-
-
-
 
     if (!result.cancelled) {
       uploadImage(result.uri, "test-image")
@@ -113,6 +115,10 @@ export default function Page2(props) {
       .catch((error) => {
         alert(error.message);
       });
+  };
+
+  const Info = () => {
+    props.navi.replace('Info');
   };
 
   const logout = async ()=>{
@@ -203,6 +209,7 @@ export default function Page2(props) {
              </View>
              <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 650, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
              <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
+             <TouchableOpacity onPress={Info} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Info</Text></TouchableOpacity>
            </View>
            {state?(
               <View style={{position:'absolute',zIndex:100, width:"40%", height:"10%", backgroundColor: "#FFBF00", opacity: 0.9, borderRadius:20, textAlign:"center"}}>

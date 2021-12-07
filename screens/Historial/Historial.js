@@ -97,13 +97,9 @@ return (
                Presio: 
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
-
               </View>
       </View>
-  </View>
-             
-           
-         
+  </View>     
   );
 
 }
