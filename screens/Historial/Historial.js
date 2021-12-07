@@ -7,7 +7,7 @@ import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/core";
 
-
+ 
 export default function historial(props) {
     const [value, onChangeTexto] = React.useState('Escribe aqui...');
     const [state, setStat] = React.useState(false)
