@@ -9,7 +9,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import logo from "../../media/images/fod.png";
-import Page1 from '../Page1/Page1'
+import Page1 from '../Page1/Page1' 
 import Page2 from '../Page2/Page2'
 import Favoritos from '../Favoritos/Favoritos';
 import Historial from '../Historial/Historial';

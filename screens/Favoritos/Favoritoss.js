@@ -5,81 +5,80 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from "@react-navigation/core";
+import { useNavigation } from "@react-navigation/core"; 
+
+export default function favoritos(props) {
+  const [value, onChangeTexto] = React.useState('Escribe aqui...');
+  const [state, setStat] = React.useState(false)
+  const [pic, setPic] = React.useState(null)
+  const navigation = useNavigation();
+  /* const navigation = props.navigation; */
+
+  useEffect(() => {
+    console.log("page2", props)
+  },[])
+  
+ async function Gallery (props) {
+    let result = await ImagePicker.launchImageLibraryAsync()
+    //let result = await ImagePicker.launchImageLibraryAsync();
 
 
-export default function historial(props) {
-    const [value, onChangeTexto] = React.useState('Escribe aqui...');
-    const [state, setStat] = React.useState(false)
-    const [pic, setPic] = React.useState(null)
-    const navigation = useNavigation();
-    /* const navigation = props.navigation; */
-  
-    useEffect(() => {
-      console.log("page2", props)
-    },[])
-    
-   async function Gallery (props) {
-      let result = await ImagePicker.launchImageLibraryAsync()
-      //let result = await ImagePicker.launchImageLibraryAsync();
-  
-  
-  
-  
-      if (!result.cancelled) {
-        uploadImage(result.uri, "test-image")
-          .then(() => {
-           
-          })
-          .catch((error) => {
-            Alert.alert(error);
-          });
-      }
-    }
-  
-    async function Camera (params) {
-      let result = await ImagePicker.launchCameraAsync();
-      //let result = await ImagePicker.launchImageLibraryAsync();
-  
-      if (!result.cancelled) {
-        uploadImage(result.uri)
-          .then(() => {
-           
-          })
-          .catch((error) => {
-            Alert.alert(error);
-          });
-      }
-    }
-  
-    async function uploadImage(uri) {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-      let rand = generateRandomString(6);
-      var ref = storage.ref().child("images/" + rand);
-      ref.put(blob).then(data => {
-        data.ref.getDownloadURL().then(url => {
-            /* console.log(url) */
-            Alert.alert("Imagen subida");
-           writeUserData(url)
-        });
-      })
-    }
-  
-    const handleSignOut = () => {
-      auth
-        .signOut()
+
+
+    if (!result.cancelled) {
+      uploadImage(result.uri, "test-image")
         .then(() => {
-          navigation.replace('Login');
+         
         })
         .catch((error) => {
-          alert(error.message);
+          Alert.alert(error);
         });
-    };
-  
-    const logout = async ()=>{
-      await firebase.auth().signOut();
     }
+  }
+
+  async function Camera (params) {
+    let result = await ImagePicker.launchCameraAsync();
+    //let result = await ImagePicker.launchImageLibraryAsync();
+
+    if (!result.cancelled) {
+      uploadImage(result.uri)
+        .then(() => {
+         
+        })
+        .catch((error) => {
+          Alert.alert(error);
+        });
+    }
+  }
+
+  async function uploadImage(uri) {
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    let rand = generateRandomString(6);
+    var ref = storage.ref().child("images/" + rand);
+    ref.put(blob).then(data => {
+      data.ref.getDownloadURL().then(url => {
+          /* console.log(url) */
+          Alert.alert("Imagen subida");
+         writeUserData(url)
+      });
+    })
+  }
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        navigation.replace('Login');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const logout = async ()=>{
+    await firebase.auth().signOut();
+  }
  
 return (
   <View style={stylesh.MainContainer}>
@@ -93,8 +92,7 @@ return (
                 <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
                Nombre del Producto:
-               Cantidad:
-               Presio:
+               Precio:
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
 
