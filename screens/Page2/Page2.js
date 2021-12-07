@@ -16,6 +16,7 @@ export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
   const [cell, setCell] = React.useState("")
+  const [dataU, setArrayHolder] = React.useState([]);
   const [address, setAddress] = React.useState("")
   const [pic, setPic] = React.useState(null)
   const navigation = useNavigation();
@@ -77,21 +78,32 @@ export default function Page2(props) {
     console.log("data")
 
     const db = getDatabase();
-    const starCountRef = ref(db,"Usuarios/" + props.uid);
+    const starCountRef = ref(db,"Usuarios/" +props.uid + "/");
     onValue(starCountRef, (snapshot) => {
-      
+      let arr = []
       const data = snapshot.val();
       snapshot.forEach(function(item) {
         var itemVal = item.val();
-       
+      
         arr.push(itemVal);
     });
-    });
 
-    console.log(arr)
+    setArrayHolder(arr)
+      
+    });
+     
+     console.log(dataU)
   }
 
-  getDataUser()
+  useEffect(() => {
+    setArrayHolder([])
+   //writeUserData()
+   getDataUser()
+    //handleSignOut()
+  }, []);
+
+  
+
   const handleSignOut = () => {
     auth
       .signOut()
@@ -145,6 +157,7 @@ export default function Page2(props) {
        
       });
       /* console.log("dsad") */
+      getDataUser()
     }
 
     function writeUserAddress() {
@@ -154,7 +167,11 @@ export default function Page2(props) {
        
       });
       /* console.log("dsad") */
+      getDataUser()
     }
+
+
+    
   return (
     <View style={stylesh.MainContainer}>
          
@@ -167,7 +184,7 @@ export default function Page2(props) {
                  {props.email}</Text>
                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
-               {props.ph}
+               {dataU[1].telefono}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
                <View style={{width: "100%"}}>
@@ -176,7 +193,7 @@ export default function Page2(props) {
                </View>
                <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303"}}>
                <Ionicons name="home" size={20}></Ionicons>
-               {props.direccion}
+               {dataU[0].address}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
                <View style={{width: "100%"}}>

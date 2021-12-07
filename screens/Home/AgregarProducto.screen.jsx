@@ -5,7 +5,6 @@ import { StyleSheet, Text, TouchableOpacity, View, Image,TextInput} from "react-
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
 import { auth } from "../../firebase";
 import logo from "../../media/images/fod.png";
-import I18n from 'react-native-i18n';
 const AgregarProducto = () => {
   const navigation = useNavigation();
    const [busqueda, setBusqueda] = useState("");
