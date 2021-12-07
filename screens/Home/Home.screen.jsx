@@ -11,7 +11,8 @@ import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import logo from "../../media/images/fod.png";
 import Page1 from '../Page1/Page1'
 import Page2 from '../Page2/Page2'
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import favoritos from "../favoritos/favoritos";
+import historial from "../historial/historial";
 
 const Tab = createBottomTabNavigator();
 
@@ -100,7 +101,11 @@ const HomePage = ({ route }) => {
             } else if (route.name === 'Navegar') {
               iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
             }else if (route.name === 'Perfil') {
-              iconName = focused ? 'information-circle' : 'information-circle';
+              iconName = focused ? 'ios-person' : 'ios-person';
+            }else if (route.name === 'favoritos') {
+              iconName = focused ? 'ios-heart' : 'ios-heart';
+            }else if (route.name === 'historial') {
+              iconName = focused ? 'ios-filing-outline' : 'ios-filing-outline';
             }
 
             // You can return any component that you like here!
@@ -113,6 +118,8 @@ const HomePage = ({ route }) => {
       >
         <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
         <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+        <Tab.Screen name="favoritos">{(props) => <favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+        <Tab.Screen name="historial">{(props) => <historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
