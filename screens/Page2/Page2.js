@@ -8,14 +8,18 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Login from '../Login/index'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
+import { RecaptchaVerifier } from "firebase/auth";
+import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 
 
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
+  const [cell, setCell] = React.useState("")
+  const [address, setAddress] = React.useState("")
   const [pic, setPic] = React.useState(null)
   const navigation = useNavigation();
+  var arr = []
   /* const navigation = props.navigation; */
 
   useEffect(() => {
@@ -69,6 +73,25 @@ export default function Page2(props) {
     })
   }
 
+  function getDataUser(){
+    console.log("data")
+
+    const db = getDatabase();
+    const starCountRef = ref(db,"Usuarios/" + props.uid);
+    onValue(starCountRef, (snapshot) => {
+      
+      const data = snapshot.val();
+      snapshot.forEach(function(item) {
+        var itemVal = item.val();
+       
+        arr.push(itemVal);
+    });
+    });
+
+    console.log(arr)
+  }
+
+  getDataUser()
   const handleSignOut = () => {
     auth
       .signOut()
@@ -115,6 +138,23 @@ export default function Page2(props) {
       }
     )}
 
+    function writeUserCell() {
+      set(ref(db, "Usuarios/"+ props.uid +  '/' + 'telefono'), {
+
+        telefono: cell
+       
+      });
+      /* console.log("dsad") */
+    }
+
+    function writeUserAddress() {
+      set(ref(db, "Usuarios/"+ props.uid +  '/' + 'Domicilio'), {
+
+        address: address
+       
+      });
+      /* console.log("dsad") */
+    }
   return (
     <View style={stylesh.MainContainer}>
          
@@ -127,17 +167,24 @@ export default function Page2(props) {
                  {props.email}</Text>
                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
-               {props.telefono}
+               {props.ph}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
-               <TextInput style={{width: "90%", backgroundColor: "#000", height: 12}}></TextInput>
                </Text>
-               <Text style={{fontSize: 23, marginTop: 10, fontWeight: "bold", color: "#030303"}}>
+               <View style={{width: "100%"}}>
+                    <TextInput onChangeText={(text) => setCell(text)} value={cell} style={{width: "80%", backgroundColor: "#000", height: 30, position: "absolute", left: 0, color: "white"}} mobile={true} pattern="[0-9]*" keyboardType={'phone-pad'}></TextInput>
+                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserCell}></Ionicons>
+               </View>
+               <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303"}}>
                <Ionicons name="home" size={20}></Ionicons>
                {props.direccion}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
+               <View style={{width: "100%"}}>
+                    <TextInput onChangeText={(text) => setAddress(text)} value={address} style={{width: "80%", backgroundColor: "#000", height: 30, position: "relative", left: 0,  color: "white"}}></TextInput>
+                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserAddress}></Ionicons>
+               </View>
              </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 505, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 650, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
              <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
            </View>
            {state?(
