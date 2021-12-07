@@ -30,8 +30,8 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(state){
-      console.log(state.user)
-      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navi: navigation});
+      console.log("Login",state.user)
+      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navi: navigation, phone: state.user.phoneNumber});
     }
   }, [state]); 
 
@@ -133,13 +133,13 @@ const LoginPage = () => {
       {/* We have 2 buttons that will execute the functions above) */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}>Ingresar</Text>
+          <Text style={styles.buttonText}> hkh</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignup}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>Registrarse</Text>
+          <Text style={styles.buttonOutlineText}>gjg</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>

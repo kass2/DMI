@@ -8,8 +8,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Card, Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet'
 import NavBar from '../navBar/NavBar'
 
-
-export default function favoritos(props) {
+ 
+export default function historial(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [states, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
@@ -50,7 +50,7 @@ export default function favoritos(props) {
          <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
                <Card >
                <Header>
-                   <TouchableOpacity><Ionicons name="trash" size={33} style={{marginLeft:"87%", marginTop:"5%", color:"#de7206"}}></Ionicons></TouchableOpacity>
+               <TouchableOpacity><Ionicons name="trash" size={33} style={{marginLeft:"87%", marginTop:"5%", color:"#de7206"}}></Ionicons></TouchableOpacity>
                    <ImageBackground source={{uri: item.Imagen}} style={{width:"90%", height: "90%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                </Header>
                <Fotter>
@@ -58,7 +58,7 @@ export default function favoritos(props) {
                      <Text style={{fontSize: 22}}>{limitador(item.Nombre)}</Text>
                    </Name>
                    <Desc>   
-                     <Text style={{fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
+                     <Text style={{fontSize: 18, opacity: 0.3}}>  Cantidad </Text>
                    </Desc>   
                </Fotter>
                    <Prize>
@@ -75,7 +75,6 @@ export default function favoritos(props) {
 
   </SafeAreaView>
   
-
   );
 
 }

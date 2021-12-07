@@ -213,7 +213,7 @@ const stylesh = StyleSheet.create({
       justifyContent: 'center',
       flex:1,
       margin: 5,
-      marginTop: (Platform.OS === 'ios') ? 20 : 0,
+      marginTop: 20,
      
   }, 
   imageView: {
