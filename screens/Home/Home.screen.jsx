@@ -1,65 +1,127 @@
 import { useNavigation } from "@react-navigation/core";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View, Image} from "react-native";
+import React, { useState, useEffect ,setState } from "react";
+import { SafeAreaView ,StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import logo from "../../media/images/fod.png";
-const HomePage = () => {
+import Page1 from '../Page1/Page1'
+import Page2 from '../Page2/Page2'
+import Favoritos from '../Favoritos/Favoritos';
+import Historial from '../Historial/Historial';
+
+const Tab = createBottomTabNavigator();
+
+const HomePage = ({ route }) => {
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
   const navigation = useNavigation();
+  const [Lalista, setArrayHolder] = React.useState([]);
+  const [photoURL, setPhoto ] = React.useState(route.params.photoURL)
+  const { itemId, otherParams } = route.params;
+  const { email, otheNav } = route.params;
 
+  const { navi, otherEmail } = route.params;
   // We will make a simple call to auth.signOut() which is also a promise based function and if it fullfills
   // we redirect the user to Login
   const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    navi.navigate("Login")
   };
-  return (
-    <View style={styles.container}>
 
-      <View style={{paddingTop:35, flexDirection:"row"}}>
-        <View style={{flexDirection:"column" , flex:2,   alignItems: "center",    justifyContent: "center", backgroundColor:'#A4CC00'}}>
- <Text style={{fontSize:40, color:'white'}}>Bienvenido</Text>
-        </View>
-        <View style={{flexDirection:"column", flex:1}}>
-           <Image source={logo} style={{  height: 60,
-            width: 150,resizeMode: 'contain'}}></Image>
-        </View>
-   
-       
-      </View>
-          <View style={{flexDirection:"row"}}>
-               <View style={{flexDirection:"column" , flex:2,   alignItems: "center",    justifyContent: "center", }}>
-     <Text style={{fontSize:20,}}>Email:{auth.currentUser?.email}</Text>
-        </View>
-        <View style={{flexDirection:"column", flex:1}}>
+
+  function writeUserData(userId, name, email, imageUrl) {
+    push(ref(db, 'Sergio/'), {
       
-        </View>
-          </View>
+      username: "rr",
+      data: "asda"
+     
+    });
+    console.log()
+  }
 
+  
 
-   <TouchableOpacity style={styles.button} onPress={()=> navigation.navigate('AgregarProducto')}>
-        <Text style={styles.buttonText}><MaterialCommunityIcons  name="plus-circle" color={'white'} size={18} />Agregar producto</Text>
-      </TouchableOpacity>
-       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-        <Text style={styles.buttonText}><MaterialCommunityIcons  name="cash-usd" color={'white'} size={20} />Producto en venta</Text>
-      </TouchableOpacity>
-       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-        <Text style={styles.buttonText}><MaterialCommunityIcons  name="chart-histogram" color={'white'} size={20} />Mis ventas</Text>
-      </TouchableOpacity>
-       <TouchableOpacity style={styles.button} onPress={handleSignOut}>
-        <Text style={styles.buttonText}><MaterialCommunityIcons  name="logout" color={'white'} size={20} />Cerrar Sesion</Text>
-      </TouchableOpacity>
+  //writeUserData()
+  useEffect(() => {
+    setArrayHolder([])
+   //writeUserData()
+    getData()
+    console.log(itemId)
+    //handleSignOut()
+  }, []);
+  
+  function getData(){
+    console.log("data")
 
-   
-    </View>
+    const db = getDatabase();
+    const starCountRef = ref(db,"Productos/");
+    onValue(starCountRef, (snapshot) => {
+      let arr = []
+      const data = snapshot.val();
+      snapshot.forEach(function(item) {
+        var itemVal = item.val();
+        console.log("dsadsadad",item)
+        arr.push(itemVal);
+    });
+
+      setArrayHolder(arr)
+    });
+  }
+
+  function LeftSwipeActions(){
+      console.log("asdads")
+  }
+
+  function rightSwipeActions(){
+      console.log("asdadd")
+  }
+  return (
+    <NavigationContainer independent={true}>
+      
+      <Tab.Navigator
+
+        screenOptions={({ route }) => ({
+
+          tabBarStyle:[
+              {
+                backgroundColor: "#556b2f",
+              }
+          ],
+          headerShown: false,
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+
+            if (route.name === 'Camara') {
+              iconName = focused
+                ? 'camera-outline'
+                : 'camera-outline';
+            } else if (route.name === 'Navegar') {
+              iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
+            }else if (route.name === 'Perfil') {
+              iconName = focused ? 'ios-person' : 'ios-person';
+            }else if (route.name === 'favoritos') {
+              iconName = focused ? 'ios-heart' : 'ios-heart';
+            }else if (route.name === 'historial') {
+              iconName = focused ? 'albums' : 'albums';
+            }
+
+            // You can return any component that you like here!
+            return <Ionicons name={iconName} size={size} color={color} />;
+          },
+          tabBarActiveTintColor: 'white',
+          tabBarInactiveTintColor: 'gray',
+          
+        })}
+      >
+        <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi}/>}</Tab.Screen>
+        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+        <Tab.Screen name="historial">{(props) => <Historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 export default HomePage;

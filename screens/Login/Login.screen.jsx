@@ -1,6 +1,9 @@
 import { useNavigation } from "@react-navigation/core";
 import React, { useEffect, useState } from "react";
+import { db, auth, updateProfile} from "../../firebase";
+import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import {
+  Alert,
   Image,
   KeyboardAvoidingView,
   StyleSheet,
@@ -10,13 +13,13 @@ import {
   View,
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
-import { auth } from "../../firebase";
 import logo from "../../media/images/fod.png";
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
+  const [credentials, setUID] = useState("");
   const [pwd, setPwd] = useState("");
-
+  const [state, setStat] = useState(null)
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
   const navigation = useNavigation();
 
@@ -26,18 +29,20 @@ const LoginPage = () => {
   // -With a dependency array with dependecies: it will execute when the dependecies change
 
   useEffect(() => {
-    // We call the function onAuthStateChanged which is a listener that will be checking for changes on the current
-    // state of authentiation.
-    const unsuscribe = auth.onAuthStateChanged((user) => {
-      // When the auth changes we will receive a user
-      if (user) {
-        // if there is a valid user we will replace the current screen for the Home one.
-        navigation.replace("Home");
-      }
-    });
-    // When the component unmounts we return the same constant to unsuscribe to the listener
-    return unsuscribe;
-  }, []);
+    if(state){
+      
+      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navi: navigation});
+    }
+  }, [state]); 
+
+  
+  
+
+  useEffect(()=>{
+    if(credentials){
+      writeUserData();
+    }
+  },[credentials])
   // This comments apply for both functions, you just need to change the name of the function called from auth
   // We use two function(createUserWithEmailAndPassword,signInWithEmailAndPassword ) from the auth instance
   // It receives email and password and creates or authenticate a new account on firebase
@@ -63,13 +68,16 @@ const LoginPage = () => {
   // - pending:  when the promise execute and we don't know the final status yet
   // - fullfilled: when the promise executed correctly
   // - rejected: when there is an error or we reject the promise because it didn't return the expected result
+  
   const handleSignup = () => {
     auth
       .createUserWithEmailAndPassword(email, pwd)
       .then((userCredentials) => {
         // then is a fullfilled promise
+     //   console.log(userCredentials.user.uid);
+      //  setUID(userCredentials.user.uid);
         const user = userCredentials.user;
-        console.log(user.email);
+        Alert.alert("Cuenta creada")
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -82,7 +90,8 @@ const LoginPage = () => {
       .then((userCredentials) => {
         // then is a fullfilled promise
         const user = userCredentials.user;
-        console.log("Logged in with:", user.email);
+        console.log(userCredentials)
+        setStat(userCredentials);
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -90,13 +99,22 @@ const LoginPage = () => {
       });
   };
 
+  function writeUserData() {
+    var user = auth.currentUser;
+    user.updateProfile({  
+      //displayName: "Jane Q. User",  
+      photoURL: "../../assets/img/me.jpg"}).then(function()
+       { 
+         console.log("Update")
+      }
+    )}
+
   return (
     // KeyboardAvoidingView is a type of view that will push the content up when a keyboard shows
     <KeyboardAvoidingView style={styles.container} behavior="padding">
-       
+      
        <Image source={logo}  style={styles.logo} />
       <View style={styles.inputContainer}>
-       
         {/* We have 2 text inputs that will set the state our our constants (email, pdw) */}
         <TextInput
           placeholder="Email"
@@ -154,7 +172,7 @@ const styles = StyleSheet.create({
     marginTop: 30,
   },
   button: {
-    backgroundColor: "#556b2f",
+    backgroundColor: "#157B33",
     width: "130%",
     padding: 15,
     borderRadius: 10,
@@ -180,7 +198,7 @@ const styles = StyleSheet.create({
   logo: {
     marginBottom:20,
     resizeMode: "contain",
-              height: 100,
-              width: 200
+              height: 180,
+              width: 280
   },
 });
