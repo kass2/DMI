@@ -23,6 +23,7 @@ const HomePage = ({ route }) => {
   const [photoURL, setPhoto ] = React.useState(route.params.photoURL)
   const { itemId, otherParams } = route.params;
   const { email, otheNav } = route.params;
+  const { phone, othePhone } = route.params;
 
   const { navi, otherEmail } = route.params;
   // We will make a simple call to auth.signOut() which is also a promise based function and if it fullfills
@@ -117,7 +118,7 @@ const HomePage = ({ route }) => {
         })}
       >
         <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
-        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi}/>}</Tab.Screen>
+        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi} uid={itemId}/>}</Tab.Screen>
         <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
         <Tab.Screen name="historial">{(props) => <Historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
       </Tab.Navigator>
