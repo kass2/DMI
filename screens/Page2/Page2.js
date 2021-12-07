@@ -129,6 +129,7 @@ export default function Page2(props) {
                <Ionicons name="call" size={20}></Ionicons>
                {props.telefono}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
+               <TextInput style={{width: "90%", backgroundColor: "#000", height: 12}}></TextInput>
                </Text>
                <Text style={{fontSize: 23, marginTop: 10, fontWeight: "bold", color: "#030303"}}>
                <Ionicons name="home" size={20}></Ionicons>
