@@ -1,120 +1,91 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import {Animated, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
+import { Avatar, Button, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from "@react-navigation/core"; 
+import {Card, Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet'
+import NavBar from '../navBar/NavBar'
+
 
 export default function favoritos(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
-  const [state, setStat] = React.useState(false)
+  const [states, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
-  const navigation = useNavigation();
-  /* const navigation = props.navigation; */
+  const [text, setText] = useState('');
+  const renderItem = ({ item }) => (
+    <Item title={item.name} />
+  );
 
-  useEffect(() => {
-    console.log("page2", props)
-  },[])
+    
+  function toggleBar(){
+    if(states){
+      setStat(false)
+    }else{
+      setStat(true)
+    }
+  }
+
+  function limitador(str){
+    const fin = str.substring(0, 23);
+    
+      return fin
   
- async function Gallery (props) {
-    let result = await ImagePicker.launchImageLibraryAsync()
-    //let result = await ImagePicker.launchImageLibraryAsync();
-
-
-
-
-    if (!result.cancelled) {
-      uploadImage(result.uri, "test-image")
-        .then(() => {
-         
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
-    }
   }
 
-  async function Camera (params) {
-    let result = await ImagePicker.launchCameraAsync();
-    //let result = await ImagePicker.launchImageLibraryAsync();
+  return (
+    
+  <SafeAreaView style={stylesh.container}>
 
-    if (!result.cancelled) {
-      uploadImage(result.uri)
-        .then(() => {
-         
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
-    }
-  }
+  <NavBar bar={toggleBar} show={states} search={props.searchItem} lista={props.items} getdata={props.getdata} photo={props.photo} nav={props.nave}></NavBar>
+  
+  <FlatList style={states? ({width: "100%", height: "100%", top: 90,  position: "absolute", zIndex: 9}):({width: "100%", height: "100%"})}
+     
+  data={props.items}
+  
+  renderItem={({item}) => 
 
-  async function uploadImage(uri) {
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    let rand = generateRandomString(6);
-    var ref = storage.ref().child("images/" + rand);
-    ref.put(blob).then(data => {
-      data.ref.getDownloadURL().then(url => {
-          /* console.log(url) */
-          Alert.alert("Imagen subida");
-         writeUserData(url)
-      });
-    })
-  }
-
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace('Login');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
-
-  const logout = async ()=>{
-    await firebase.auth().signOut();
-  }
- 
-return (
-  <View style={stylesh.MainContainer}>
-         
-    <View  style={stylesh.MainContainer}>
-            <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
-        
-                 <Text style={{fontWeight:"bold", fontSize:30}}>Lista de Favoritos</Text>
-              <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-                <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}} ></ImageBackground>
-                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
-               <Ionicons name="call" size={20}></Ionicons>
-               Nombre del Producto:
-               Precio: 
-               <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
-               </Text>
-
-              </View>
+      <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
+               
+               <Card >
+               <Header>
+                 <TouchableOpacity><Ionicons name="trash" size={30} style={{marginTop:"5%", marginLeft:"85%", color:"#dc7308"}}></Ionicons></TouchableOpacity>
+                   <ImageBackground source={{uri: item.Imagen}} style={{width:"90%", height: "90%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
+               </Header>
+               <Fotter>
+                   <Name>
+                     <Text style={{fontSize: 22}}>{limitador(item.Nombre)}</Text>
+                   </Name>
+                   <Desc>   
+                     <Text style={{fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
+                   </Desc>   
+               </Fotter>
+                   <Prize>
+                     <Text style={{fontSize: 27, color:"white"}} >$ {item.Precio}.00 MXN</Text>
+                   </Prize>
+         </Card>
       </View>
-  </View>
-             
-           
-         
+  
+    }
+
+  keyExtractor={(item, index) => index.toString()}
+  
+  />
+
+  </SafeAreaView>
+  
+
   );
 
 }
 
 const stylesh = StyleSheet.create({
   container: {
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "absolute",
       zIndex:100,
       width: "100%",
-      height: "100%"
+      height: "100%",
   },
   notValid: {
       color: "red",
@@ -211,11 +182,11 @@ const stylesh = StyleSheet.create({
 
     },
     imageMe:{
-      width: 250,
-      height: 250,
-      borderRadius: 100,
-      
-
+      width: "100%",
+      height: "100%",
+      borderRadius: 50,
+      position: "absolute",
+      zIndex: 2
     },
     imageCon:{
       position: "absolute",
@@ -239,12 +210,12 @@ const stylesh = StyleSheet.create({
       fontSize: 32,
     },
     MainContainer :{
-      alignItems: "center",
-      alignContent: "center",
-      textAlign: "center",
+ 
       justifyContent: 'center',
       flex:1,
-      margin: 2,
+      margin: 5,
+      marginTop: (Platform.OS === 'ios') ? 20 : 0,
+     
   }, 
   imageView: {
    
@@ -260,9 +231,32 @@ const stylesh = StyleSheet.create({
       width:'50%', 
       textAlignVertical:'center',
       padding:10,
-      color: '#000'
+      color: '#000',
+      fontSize: 22
    
   },
+  textView2: {
+   
+    width:'20%', 
+    textAlignVertical:'center',
+    padding:10,
+    color: '#000',
+    fontSize: 22
+  },
+borrar:{
+  width: 60,
+  height: "100%",
+  position: "absolute",
+  right: "20%",
+  backgroundColor: "#5e2129"
+},
+completed:{
+  width: 60,
+  height: "100%",
+  position: "absolute",
+  right: "5%",
+  backgroundColor: "green"
+},
   imageViewFin: {
    
     width: '97%',
@@ -271,5 +265,20 @@ const stylesh = StyleSheet.create({
     borderRadius : 7
  
 },
+box: {
+  width: 300,
+  height: "100%",
+  backgroundColor: "#556b2f",
+  transform: [
+    { translateX: 0},
+  ],
+  position: "absolute",
+  left: 0,
+  zIndex: 1
+},
+box2: {
+  width: 100,
+  height: 100,
+  backgroundColor: "blue",
+},
 });
-

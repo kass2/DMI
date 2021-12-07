@@ -45,8 +45,10 @@ export default function Page1(props) {
   renderItem={({item}) => 
 
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
                <Card >
                <Header>
+               <TouchableOpacity><Ionicons name="heart" size={37} style={{marginTop:"5%", marginLeft:"85%", color:"#fdd700"}}></Ionicons></TouchableOpacity>
                    <ImageBackground source={{uri: item.Imagen}} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                </Header>
                <Fotter>
