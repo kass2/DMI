@@ -11,8 +11,8 @@ import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import logo from "../../media/images/fod.png";
 import Page1 from '../Page1/Page1'
 import Page2 from '../Page2/Page2'
-import Favoritos from "../Favoritos/Favoritos"
-import Historial from "../Historial/Historial"
+import Favoritos from "../Favoritos/Favoritos";
+import Historial from "../Historial/Historial";
 
 const Tab = createBottomTabNavigator();
 
@@ -118,8 +118,8 @@ const HomePage = ({ route }) => {
       >
         <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
         <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
-        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
-        <Tab.Screen name="historial">{(props) => <Historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
+        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name="historial">{(props) => <Historial{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );
