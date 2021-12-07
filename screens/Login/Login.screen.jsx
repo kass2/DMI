@@ -30,10 +30,13 @@ const LoginPage = () => {
 
   useEffect(() => {
     if(state){
-
-      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navigation:navigation});
+      
+      navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navi: navigation});
     }
-  }, [state]);
+  }, [state]); 
+
+  
+  
 
   useEffect(()=>{
     if(credentials){
