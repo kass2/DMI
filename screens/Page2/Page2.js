@@ -2,26 +2,40 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from "@react-navigation/core";
 import { auth, db, storage } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/core';
-import Login from '../Login/Login.screen'
+import Login from '../Login/index';
+import Info from '../Info/index';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RecaptchaVerifier } from "firebase/auth";
+import { getDatabase, ref, set ,onValue, push} from "firebase/database";
+
+
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
+  const [cell, setCell] = React.useState("")
+  const [dataU, setArrayHolder] = React.useState([]);
+  const [address, setAddress] = React.useState("")
   const [pic, setPic] = React.useState(null)
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  
+  var arr = []
+  /* const navigation = props.navigation; */
+
   useEffect(() => {
     console.log("page2", props)
-   // navigation.replace('Login')
   },[])
+  
 
+
+
+  
  async function Gallery (props) {
     let result = await ImagePicker.launchImageLibraryAsync()
     //let result = await ImagePicker.launchImageLibraryAsync();
-
-
-
 
     if (!result.cancelled) {
       uploadImage(result.uri, "test-image")
@@ -63,6 +77,67 @@ export default function Page2(props) {
     })
   }
 
+  function getDataUser(){
+
+
+    console.log("data")
+
+    const db = getDatabase();
+    const starCountRef = ref(db,"Usuarios/" + props.uid + "/");
+    onValue(starCountRef, (snapshot) => {
+      let arr = []
+      const data = snapshot.val();
+
+      if(data) {
+            snapshot.forEach(function(item) {
+              var itemVal = item.val();
+            
+              arr.push(itemVal);
+          });
+      }else{
+        arr.push({address: "Sin Domicilio"}, {telefono: "Sin numero"})
+      }
+      
+      
+
+    arr.sort();
+    setArrayHolder(arr)
+
+    console.log(dataU)
+
+    });
+     
+   
+  }
+
+  useEffect(() => {
+    setArrayHolder([])
+   //writeUserData()
+   getDataUser()
+    //handleSignOut()
+  }, []);
+
+  
+
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        props.navi.replace('Login');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const Info = () => {
+    props.navi.replace('Info');
+  };
+
+  const logout = async ()=>{
+    await firebase.auth().signOut();
+  }
+  
   const  generateRandomString = (num) => {
     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result1= ' ';
@@ -94,6 +169,28 @@ export default function Page2(props) {
       }
     )}
 
+    function writeUserCell() {
+      set(ref(db, "Usuarios/"+ props.uid +  '/' + 'telefono'), {
+
+        telefono: cell
+       
+      });
+      /* console.log("dsad") */
+      getDataUser()
+    }
+
+    function writeUserAddress() {
+      set(ref(db, "Usuarios/"+ props.uid +  '/' + 'Domicilio'), {
+
+        address: address
+       
+      });
+      /* console.log("dsad") */
+      getDataUser()
+    }
+
+
+    
   return (
     <View style={stylesh.MainContainer}>
          
@@ -101,28 +198,36 @@ export default function Page2(props) {
             <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
              <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
-
                <Text style={{marginTop: 20, fontSize: 20, color:"#030303", fontWeight: "bold"}}>
                <Ionicons name="mail" size={20}></Ionicons>
                  {props.email}</Text>
                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
-               {props.telefono}
+               {dataU.telefono}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
-               <Text style={{fontSize: 23, marginTop: 10, fontWeight: "bold", color: "#030303"}}>
-               <Ionicons name="call" size={20}></Ionicons>
-               {props.direccion}
+               <View style={{width: "100%"}}>
+                    <TextInput onChangeText={(text) => setCell(text)} value={cell} style={{width: "80%", backgroundColor: "#000", height: 30, position: "absolute", left: 0, color: "white"}} mobile={true} pattern="[0-9]*" keyboardType={'phone-pad'}></TextInput>
+                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserCell}></Ionicons>
+               </View>
+               <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303"}}>
+               <Ionicons name="home" size={20}></Ionicons>
+               {dataU.address}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
+               <View style={{width: "100%"}}>
+                    <TextInput onChangeText={(text) => setAddress(text)} value={address} style={{width: "80%", backgroundColor: "#000", height: 30, position: "relative", left: 0,  color: "white"}}></TextInput>
+                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserAddress}></Ionicons>
+               </View>
              </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 32, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
-
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 650, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
+             <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
+             <TouchableOpacity onPress={Info} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Info</Text></TouchableOpacity>
            </View>
            {state?(
-              <View style={{position:'absolute',zIndex:100, width:"80%", height:"20%", backgroundColor: "black", opacity: 0.6, borderRadius:20}}>
-              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:20}}><Ionicons name='ios-images-outline' color='red' size={80}></Ionicons></TouchableOpacity>
-              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:20}}><Ionicons name='ios-camera-outline' color='red' size={80}></Ionicons></TouchableOpacity>
+              <View style={{position:'absolute',zIndex:100, width:"40%", height:"10%", backgroundColor: "#FFBF00", opacity: 0.9, borderRadius:20, textAlign:"center"}}>
+              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:12}}><Ionicons name='ios-images-outline' color='white' size={30}></Ionicons></TouchableOpacity>
+              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:12}}><Ionicons name='ios-camera-outline' color='white' size={30}></Ionicons></TouchableOpacity>
               </View>
            ):(<View></View>)}
            
@@ -270,11 +375,7 @@ const stylesh = StyleSheet.create({
       textAlign: "center",
       justifyContent: 'center',
       flex:1,
-
       margin: 2,
-
-      marginTop: 20,
-     
   }, 
   imageView: {
    
