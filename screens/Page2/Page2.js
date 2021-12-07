@@ -19,6 +19,8 @@ export default function Page2(props) {
   const [cell, setCell] = React.useState("")
   const [dataU, setArrayHolder] = React.useState([]);
   const [address, setAddress] = React.useState("")
+  const [Domicilio, setDom] = React.useState("Sin domicilio")
+  const [Telefono, setTel] = React.useState("Sin numero")
   const [pic, setPic] = React.useState(null)
   const navigation = useNavigation();
   
@@ -93,17 +95,16 @@ export default function Page2(props) {
               var itemVal = item.val();
             
               arr.push(itemVal);
+              
           });
-      }else{
-        arr.push({address: "Sin Domicilio"}, {telefono: "Sin numero"})
+          arr.sort();
+          setDom(arr[0].address)
+          setTel(arr[1].telefono)
+
       }
       
       
-
-    arr.sort();
-    setArrayHolder(arr)
-
-    console.log(dataU)
+  
 
     });
      
@@ -201,18 +202,18 @@ export default function Page2(props) {
                <Text style={{marginTop: 20, fontSize: 20, color:"#030303", fontWeight: "bold"}}>
                <Ionicons name="mail" size={20}></Ionicons>
                  {props.email}</Text>
-               <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
+               <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center",marginRight: 30}}>
                <Ionicons name="call" size={20}></Ionicons>
-               {dataU.telefono}
+               {Telefono}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
                <View style={{width: "100%"}}>
                     <TextInput onChangeText={(text) => setCell(text)} value={cell} style={{width: "80%", backgroundColor: "#000", height: 30, position: "absolute", left: 0, color: "white"}} mobile={true} pattern="[0-9]*" keyboardType={'phone-pad'}></TextInput>
                     <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserCell}></Ionicons>
                </View>
-               <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303"}}>
+               <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303", marginRight: 30}}>
                <Ionicons name="home" size={20}></Ionicons>
-               {dataU.address}
+               {Domicilio}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
                <View style={{width: "100%"}}>
