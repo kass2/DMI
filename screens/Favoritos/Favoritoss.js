@@ -92,7 +92,7 @@ return (
                 <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
                Nombre del Producto:
-               Precio:
+               Precio: 
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
 
