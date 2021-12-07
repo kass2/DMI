@@ -2,20 +2,26 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { useNavigation } from "@react-navigation/core";
 import { auth, db, storage } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { useNavigation } from '@react-navigation/core';
-import Login from '../Login/Login.screen'
+import Login from '../Login/index'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+
+
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  /* const navigation = props.navigation; */
+
   useEffect(() => {
     console.log("page2", props)
-   // navigation.replace('Login')
   },[])
-
+  
  async function Gallery (props) {
     let result = await ImagePicker.launchImageLibraryAsync()
     //let result = await ImagePicker.launchImageLibraryAsync();
@@ -63,6 +69,21 @@ export default function Page2(props) {
     })
   }
 
+  const handleSignOut = () => {
+    auth
+      .signOut()
+      .then(() => {
+        props.navi.replace('Login');
+      })
+      .catch((error) => {
+        alert(error.message);
+      });
+  };
+
+  const logout = async ()=>{
+    await firebase.auth().signOut();
+  }
+  
   const  generateRandomString = (num) => {
     const characters ='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     let result1= ' ';
@@ -101,7 +122,6 @@ export default function Page2(props) {
             <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
              <View style={{flex: 1, justifyContent: "center", alignItems:"center", position: "absolute", zIndex: 100}}>
              <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}}  imageStyle={{ borderRadius: 50}}></ImageBackground>
-
                <Text style={{marginTop: 20, fontSize: 20, color:"#030303", fontWeight: "bold"}}>
                <Ionicons name="mail" size={20}></Ionicons>
                  {props.email}</Text>
@@ -111,22 +131,18 @@ export default function Page2(props) {
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
                <Text style={{fontSize: 23, marginTop: 10, fontWeight: "bold", color: "#030303"}}>
-               <Ionicons name="call" size={20}></Ionicons>
+               <Ionicons name="home" size={20}></Ionicons>
                {props.direccion}
                <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
-
-               <Text style={{marginTop: 40, fontSize: 24, color:"#030303", fontWeight: "bold"}}>Email: {props.email}</Text>
-               <Text style={{fontSize: 19, marginTop: 20, color:"#030303",fontWeight: "bold",textAlign:"center"}}>Universidad Tecnológica de Aguascalientes</Text>
-               <Text style={{fontSize: 27, marginTop: 15, fontWeight: "bold", color: "#1D8A59"}}>10 A</Text>
              </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 520, zIndex: 700, position: "relative"}}><Text style={{fontSize: 32, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
-
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 505, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
+             <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
            </View>
            {state?(
-              <View style={{position:'absolute',zIndex:100, width:"80%", height:"20%", backgroundColor: "black", opacity: 0.6, borderRadius:20}}>
-              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:20}}><Ionicons name='ios-images-outline' color='red' size={80}></Ionicons></TouchableOpacity>
-              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:20}}><Ionicons name='ios-camera-outline' color='red' size={80}></Ionicons></TouchableOpacity>
+              <View style={{position:'absolute',zIndex:100, width:"40%", height:"10%", backgroundColor: "#FFBF00", opacity: 0.9, borderRadius:20, textAlign:"center"}}>
+              <TouchableOpacity onPress={Gallery} style={{position:'absolute', alignItems: "center",left: 30, top:12}}><Ionicons name='ios-images-outline' color='white' size={30}></Ionicons></TouchableOpacity>
+              <TouchableOpacity onPress={Camera} style={{position:'absolute', right: 30, top:12}}><Ionicons name='ios-camera-outline' color='white' size={30}></Ionicons></TouchableOpacity>
               </View>
            ):(<View></View>)}
            
@@ -274,11 +290,7 @@ const stylesh = StyleSheet.create({
       textAlign: "center",
       justifyContent: 'center',
       flex:1,
-
       margin: 2,
-
-      marginTop: 20,
-     
   }, 
   imageView: {
    

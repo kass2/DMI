@@ -171,7 +171,7 @@ const NavBar = (props) => {
       {props.show? (
       <SafeAreaView style={stylesh.backC}>
       <Nav>
-            <BottonBurger></BottonBurger>
+           {/*  <BottonBurger></BottonBurger> */}
             <SearchBar searchN={props.search} listaN={props.lista}></SearchBar>
 
             <Cart></Cart>
@@ -197,7 +197,7 @@ const NavBar = (props) => {
     </SafeAreaView>
     ):(
         <Nav>
-            <BottonBurger></BottonBurger>
+            {/* <BottonBurger></BottonBurger> */}
             <SearchBar searchN={props.search} listaN={props.lista}></SearchBar>
 
             <Cart></Cart>

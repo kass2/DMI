@@ -5,6 +5,7 @@ import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from "@react-navigation/core";
 
 
 export default function historial(props) {
