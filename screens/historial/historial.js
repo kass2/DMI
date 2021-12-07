@@ -94,7 +94,7 @@ return (
                <Ionicons name="call" size={20}></Ionicons>
                Nombre del Producto:
                Cantidad:
-               Presio:
+               Presio: 
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
 
