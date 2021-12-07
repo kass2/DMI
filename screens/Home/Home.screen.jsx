@@ -117,9 +117,9 @@ const HomePage = ({ route }) => {
         })}
       >
         <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name="historial">{(props) => <Historial{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
         <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi}/>}</Tab.Screen>
-        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
-        <Tab.Screen name="historial">{(props) => <Historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

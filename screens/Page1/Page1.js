@@ -7,6 +7,8 @@ import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Card, Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet'
 import NavBar from '../navBar/NavBar'
+
+
 export default function Page1(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [states, setStat] = React.useState(false)
@@ -45,9 +47,11 @@ export default function Page1(props) {
   renderItem={({item}) => 
 
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
                <Card >
                <Header>
-                   <ImageBackground source={{uri: item.Imagen}} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
+               <TouchableOpacity><Ionicons name="heart" size={36} style={{marginLeft:"85%", marginTop:"5%", color:"#ffd606"}}></Ionicons></TouchableOpacity>
+                   <ImageBackground source={{uri: item.Imagen}} style={{width:"90%", height: "90%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                </Header>
                <Fotter>
                    <Name>
