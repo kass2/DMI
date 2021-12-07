@@ -3,6 +3,7 @@ import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./screens/Login";
 import Home from "./screens/Home";
+import Info from "./screens/Info";
 import AgregarProducto from "./screens/Home/AgregarProducto.screen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -24,6 +25,9 @@ export default function App() {
         </Stack.Screen>
         <Stack.Screen name="AgregarProducto"  options={{  headerShown: false }}>
           {(props) => <AgregarProducto {...props} />}
+        </Stack.Screen>
+        <Stack.Screen name="Info"  options={{  headerShown: false }}>
+          {(props) => <Info {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
