@@ -47,6 +47,7 @@ export default function Page1(props) {
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
                <Card >
                <Header>
+               <TouchableOpacity><Ionicons name="heart" size={37} style={{marginTop:"5%", marginLeft:"85%", color:"#fdd700"}}></Ionicons></TouchableOpacity>
                    <ImageBackground source={{uri: item.Imagen}} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                </Header>
                <Fotter>
