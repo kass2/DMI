@@ -16,6 +16,8 @@ import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 export default function Page2(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
+  const [toggleT, setToggleTel] = React.useState(false)
+  const [toggleD, setToggleDom] = React.useState(false)
   const [cell, setCell] = React.useState("")
   const [dataU, setArrayHolder] = React.useState([]);
   const [address, setAddress] = React.useState("")
@@ -98,8 +100,21 @@ export default function Page2(props) {
               
           });
           arr.sort();
-          setDom(arr[0].address)
-          setTel(arr[1].telefono)
+          console.log(arr)
+          if(arr[0].address){
+            setDom(arr[0].address)
+
+            if(arr.length == 2){
+              setTel(arr[1].telefono)
+            }
+         
+          }else{
+            setTel(arr[0].telefono)
+          }
+
+          
+
+          
 
       }
       
@@ -176,8 +191,7 @@ export default function Page2(props) {
         telefono: cell
        
       });
-      /* console.log("dsad") */
-      getDataUser()
+     
     }
 
     function writeUserAddress() {
@@ -186,11 +200,24 @@ export default function Page2(props) {
         address: address
        
       });
-      /* console.log("dsad") */
-      getDataUser()
+    
     }
 
+    function toggleTel(){
+        if(toggleT){
+          setToggleTel(false)
+        }else{
+          setToggleTel(true)
+        }
+    }
 
+    function toggleDom(){
+      if(toggleD){
+        setToggleDom(false)
+      }else{
+        setToggleDom(true)
+      }
+    }
     
   return (
     <View style={stylesh.MainContainer}>
@@ -205,21 +232,27 @@ export default function Page2(props) {
                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center",marginRight: 30}}>
                <Ionicons name="call" size={20}></Ionicons>
                {Telefono}
-               <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
+               <TouchableOpacity onPress={toggleTel}><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
-               <View style={{width: "100%"}}>
-                    <TextInput onChangeText={(text) => setCell(text)} value={cell} style={{width: "80%", backgroundColor: "#000", height: 30, position: "absolute", left: 0, color: "white"}} mobile={true} pattern="[0-9]*" keyboardType={'phone-pad'}></TextInput>
-                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserCell}></Ionicons>
-               </View>
+               {toggleT?(
+                 <View style={{width: "100%"}}>
+                 <TextInput onChangeText={(text) => setCell(text)} value={cell} style={{width: "80%", backgroundColor: "#000", height: 30, position: "absolute", left: 0, color: "white"}} mobile={true} pattern="[0-9]*" keyboardType={'phone-pad'}></TextInput>
+                 <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserCell}></Ionicons>
+            </View>
+               ):(<View></View>)}
+               
                <Text style={{fontSize: 23, marginTop: 40, fontWeight: "bold", color: "#030303", marginRight: 30}}>
                <Ionicons name="home" size={20}></Ionicons>
                {Domicilio}
-               <TouchableOpacity><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
+               <TouchableOpacity onPress={toggleDom}><Ionicons name="create" size={20}></Ionicons></TouchableOpacity>
                </Text>
-               <View style={{width: "100%"}}>
-                    <TextInput onChangeText={(text) => setAddress(text)} value={address} style={{width: "80%", backgroundColor: "#000", height: 30, position: "relative", left: 0,  color: "white"}}></TextInput>
-                    <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserAddress}></Ionicons>
-               </View>
+               {toggleD?(
+                 <View style={{width: "100%"}} >
+                 <TextInput onChangeText={(text) => setAddress(text)} value={address} style={{width: "80%", backgroundColor: "#000", height: 30, position: "relative", left: 0,  color: "white"}}></TextInput>
+                 <Ionicons name="checkmark-outline" size={30}  style={{position: "absolute", right: 0}} onPress={writeUserAddress}></Ionicons>
+            </View>   
+               ):(<View></View>)}
+               
              </View>
              <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 40, alignItems: "center", marginTop: 650, zIndex: 400, position: "relative"}}><Text style={{fontSize: 30, color:"#FEFEFE"}}>Subir foto</Text></TouchableOpacity>
              <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 10, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>Cerrar Sesion</Text></TouchableOpacity>
