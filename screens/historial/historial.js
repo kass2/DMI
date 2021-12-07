@@ -86,14 +86,14 @@ return (
     <View  style={stylesh.MainContainer}>
             <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
         
-                 <Text style={{fontWeight:"bold", fontSize:30}}>Lista de Favoritos</Text>
+            <Text style={{fontWeight:"bold", fontSize:30}}>Lista de Favoritos</Text>
               <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                 <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}} ></ImageBackground>
-                <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
-               <Ionicons name="call" size={20}></Ionicons>
-               Nombre del Producto:
-               Cantidad:
-               Presio:
+                <Text style={{fontSize: 20, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
+                 Nombre del Producto: 
+                 <br/>
+                 <Text>Cantidad </Text>
+                 <Text>Precio: </Text>
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
 
