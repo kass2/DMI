@@ -14,7 +14,7 @@ import {
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
 import logo from "../../media/images/fod.png";
-import I18n from "../../i18n";
+import i18n from "../../localization/i18n"
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
@@ -134,13 +134,13 @@ const LoginPage = () => {
       {/* We have 2 buttons that will execute the functions above) */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}> {I18n.t('option')}</Text>
+          <Text style={styles.buttonText}> {i18n.t("option")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignup}
           style={[styles.button, styles.buttonOutline]}
         >
-          <Text style={styles.buttonOutlineText}>{I18n.t('register')}</Text>
+          <Text style={styles.buttonOutlineText}>{i18n.t("register")}</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
