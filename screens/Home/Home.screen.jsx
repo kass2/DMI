@@ -1,20 +1,18 @@
 import { useNavigation } from "@react-navigation/core";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import React, { useState, useEffect ,setState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
+import { SafeAreaView ,StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
 import { auth, db } from "../../firebase";
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
 import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import logo from "../../media/images/fod.png";
 import Page1 from '../Page1/Page1'
 import Page2 from '../Page2/Page2'
 import favoritos from "../favoritos/favoritos";
 import historial from "../historial/historial";
-
 
 const Tab = createBottomTabNavigator();
 
@@ -24,22 +22,15 @@ const HomePage = ({ route }) => {
   const [Lalista, setArrayHolder] = React.useState([]);
   const [photoURL, setPhoto ] = React.useState(route.params.photoURL)
   const { itemId, otherParams } = route.params;
-  const { email, otherEmail } = route.params;
+  const { email, otheNav } = route.params;
 
+  const { navi, otherEmail } = route.params;
   // We will make a simple call to auth.signOut() which is also a promise based function and if it fullfills
   // we redirect the user to Login
   const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace("Login");
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    navi.navigate("Login")
   };
 
-  console.log("UID",photoURL)
 
   function writeUserData(userId, name, email, imageUrl) {
     push(ref(db, 'Sergio/'), {
@@ -59,11 +50,14 @@ const HomePage = ({ route }) => {
    //writeUserData()
     getData()
     console.log(itemId)
+    //handleSignOut()
   }, []);
   
   function getData(){
+    console.log("data")
+
     const db = getDatabase();
-    const starCountRef = ref(db, itemId + "/");
+    const starCountRef = ref(db,"Productos/");
     onValue(starCountRef, (snapshot) => {
       let arr = []
       const data = snapshot.val();
@@ -73,19 +67,30 @@ const HomePage = ({ route }) => {
         arr.push(itemVal);
     });
 
-    
       setArrayHolder(arr)
-      //console.log(data)
-     // console.log([{id:2},{id: 3}])
-      //setArrayHolder(data)
-      //updateStarCount(postElement, data);
     });
+  }
+
+  function LeftSwipeActions(){
+      console.log("asdads")
+  }
+
+  function rightSwipeActions(){
+      console.log("asdadd")
   }
   return (
     <NavigationContainer independent={true}>
-      <Tab.Navigator 
+      
+      <Tab.Navigator
+
         screenOptions={({ route }) => ({
-          
+
+          tabBarStyle:[
+              {
+                backgroundColor: "#556b2f",
+              }
+          ],
+          headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
@@ -93,8 +98,8 @@ const HomePage = ({ route }) => {
               iconName = focused
                 ? 'camera-outline'
                 : 'camera-outline';
-            } else if (route.name === 'Lista') {
-              iconName = focused ? 'ios-list' : 'ios-list';
+            } else if (route.name === 'Navegar') {
+              iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
             }else if (route.name === 'Perfil') {
               iconName = focused ? 'ios-person' : 'ios-person';
             }else if (route.name === 'favoritos') {
@@ -106,11 +111,12 @@ const HomePage = ({ route }) => {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-          tabBarActiveTintColor: 'tomato',
+          tabBarActiveTintColor: 'white',
           tabBarInactiveTintColor: 'gray',
+          
         })}
       >
-        <Tab.Screen name="Lista" options={{ tabBarBadge: Lalista.length }}>{(props) => <Page1{...props} items={Lalista} uid={itemId}/>}</Tab.Screen>
+        <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
         <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
         <Tab.Screen name="favoritos">{(props) => <favoritos{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>
         <Tab.Screen name="historial">{(props) => <historial{...props} items={photoURL} photo={setPhoto} email={email}/>}</Tab.Screen>

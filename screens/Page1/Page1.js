@@ -1,120 +1,86 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
+import {Animated, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
+import { Avatar, Button, Title, Paragraph } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-
-export default function Page2(props) {
+import {Card, Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet'
+import NavBar from '../navBar/NavBar'
+export default function Page1(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
-  const [state, setStat] = React.useState(true)
+  const [states, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
   const [text, setText] = useState('');
   const renderItem = ({ item }) => (
     <Item title={item.name} />
   );
-  
-  /* console.log("Pagina2 ",props) */
-const FlatListItemSeparator = () => {
-return (
-  <View
-    style={{
-      height: .5,
-      width: "100%",
-      backgroundColor: "#000",
-    }}
-  />
-);
-}
 
-function writeUserData() {
-  set(ref(db, props.uid +  '/' + text), {
     
-    task: text,
-    status: true
-   
-  });
-  /* console.log("dsad") */
-}
-
-function deleteData(tarea) {
-  let knownLocationRef = db.ref( props.uid +'/' + tarea);
-  knownLocationRef.remove();
-}
-
-function doneTask(tarea) {
-  let knownLocationRef = db.ref(props.uid +'/' + tarea.task);
-  if(tarea.status){
-    knownLocationRef.update({ status: false});
-  }else{
-    knownLocationRef.update({ status: true});
+  function toggleBar(){
+    if(states){
+      setStat(false)
+    }else{
+      setStat(true)
+    }
   }
+
+  function limitador(str){
+    const fin = str.substring(0, 23);
+    
+      return fin
   
-  /* console.log(tarea.status); */
-}
-
-
-const  SetItem = (item) => {
-setPic(item)
-setStat(false)
-
-
-}
-
-
-
+  }
 
   return (
-   <View>
-     <Text style={{color: "#000", fontSize: 20}}>Agregar nueva tarea:</Text>
-     <TextInput onChangeText={text => setText(text)}
-        defaultValue={text} style={{width: "70%", height: 30, marginLeft:15,backgroundColor: "#fff", marginTop: "5%"}}>
-     </TextInput>
-     <TouchableOpacity style={{position: "absolute", borderRadius:50,backgroundColor: "#1D8A59", width: "20%", height: 25, marginTop: 48, right: 10, zIndex:90}} onPress={writeUserData}>
-        <Ionicons name="md-save-outline" size={20} style={{position:'relative',fontSize: 20,color:'white',textAlign:'center'}}></Ionicons>
-     </TouchableOpacity>
+    
+  <SafeAreaView style={stylesh.container}>
 
- <FlatList
+  <NavBar bar={toggleBar} show={states} search={props.searchItem} lista={props.items} getdata={props.getdata} photo={props.photo} nav={props.nave}></NavBar>
+  
+  <FlatList style={states? ({width: "100%", height: "100%", top: 90,  position: "absolute", zIndex: 9}):({width: "100%", height: "100%"})}
      
-     data={props.items}
-     
-     renderItem={({item}) => 
+  data={props.items}
+  
+  renderItem={({item}) => 
 
-      
-     
-         <View style={item.status ? {flex:1, flexDirection: 'row', backgroundColor: "#FFBF00", margin: 10, borderRadius: 4}: {flex:1, flexDirection: 'row', backgroundColor: "green", margin: 10, borderRadius: 4}}>
- 
-           {/* <Text style={stylesh.textView2}>Tarea:</Text> */}
-           <Text onPress={SetItem.bind(this, item)} style={stylesh.textView} >{item.task}</Text>
-           <TouchableOpacity style={stylesh.completed} onPress={doneTask.bind(this, item)}>
-              <Ionicons name="md-medal-outline" size={20} style={{position:'relative',fontSize:20,color:'white',padding:12,textAlign:'center'}}></Ionicons>
-           </TouchableOpacity>
-           <TouchableOpacity style={stylesh.borrar} onPress={deleteData.bind(this, item.task)}>
-              <Ionicons name="trash-outline" size={20} style={{position:'relative',fontSize:20,color:'white',padding:12,textAlign:'center'}}></Ionicons>
-           </TouchableOpacity>
-         </View>
-     
-       }
+      <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
+               <Card >
+               <Header>
+                   <ImageBackground source={{uri: item.Imagen}} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
+               </Header>
+               <Fotter>
+                   <Name>
+                     <Text style={{fontSize: 22}}>{limitador(item.Nombre)}</Text>
+                   </Name>
+                   <Desc>   
+                     <Text style={{fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
+                   </Desc>   
+               </Fotter>
+                   <Prize>
+                     <Text style={{fontSize: 27, color:"white"}} >$ {item.Precio}.00 MXN</Text>
+                   </Prize>
+         </Card>
+      </View>
+  
+    }
 
-     keyExtractor={(item, index) => index.toString()}
-     
-     />
-   </View>
+  keyExtractor={(item, index) => index.toString()}
+  
+  />
+
+  </SafeAreaView>
+  
+
   );
 
 }
 
 const stylesh = StyleSheet.create({
   container: {
-      backgroundColor: "#fff",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "absolute",
       zIndex:100,
       width: "100%",
-      height: "100%"
+      height: "100%",
   },
   notValid: {
       color: "red",
@@ -276,15 +242,15 @@ borrar:{
   width: 60,
   height: "100%",
   position: "absolute",
-  right: "15%",
-  /* backgroundColor: "#5e2129" */
+  right: "20%",
+  backgroundColor: "#5e2129"
 },
 completed:{
   width: 60,
   height: "100%",
   position: "absolute",
-  right: "2%",
-  /* backgroundColor: "green" */
+  right: "5%",
+  backgroundColor: "green"
 },
   imageViewFin: {
    
@@ -293,6 +259,22 @@ completed:{
     margin: 7,
     borderRadius : 7
  
+},
+box: {
+  width: 300,
+  height: "100%",
+  backgroundColor: "#556b2f",
+  transform: [
+    { translateX: 0},
+  ],
+  position: "absolute",
+  left: 0,
+  zIndex: 1
+},
+box2: {
+  width: 100,
+  height: 100,
+  backgroundColor: "blue",
 },
 });
 
