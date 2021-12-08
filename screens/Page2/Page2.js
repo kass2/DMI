@@ -252,7 +252,7 @@ export default function Page2(props) {
                ):(<View></View>)}
                
              </View>
-             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 350,marginBottom: 5, zIndex: 400, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>{i18n.t("button-UploadPhoto")}</Text></TouchableOpacity>
+             <TouchableOpacity onPress={alarta} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center", marginTop: 500,marginBottom: 5, zIndex: 400, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>{i18n.t("button-UploadPhoto")}</Text></TouchableOpacity>
              <TouchableOpacity onPress={handleSignOut} style={{backgroundColor: "#157B33", borderRadius: 30, width: 230, height: 25, alignItems: "center",marginBottom: 5, zIndex: 700, position: "relative"}}><Text style={{fontSize: 18, color:"#FEFEFE"}}>{i18n.t("button-Logout")}</Text></TouchableOpacity>
            </View>
            {state?(

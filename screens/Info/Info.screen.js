@@ -8,6 +8,7 @@ import { useRoute } from '@react-navigation/core';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/core"; 
 import { Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet';
+import i18n from "../../localization/i18n"
 
 
 
@@ -115,17 +116,17 @@ return (
                             style={stylesh.input}
                             onChangeText={onChangeNumber}
                             value={number}
-                            placeholder="Cantidad"
+                            placeholder={i18n.t("placeholder-Quantity")}
                             keyboardType="numeric"
                           />
                         </SafeAreaView>
                         
                         <View style={stylesh.buttonContainer}>
                           <TouchableOpacity style={stylesh.button}>
-                            <Text style={stylesh.buttonText}>Comprar ahora</Text>
+                            <Text style={stylesh.buttonText}>{i18n.t("Buy-Now")}</Text>
                           </TouchableOpacity>
                           <TouchableOpacity style={[stylesh.button, stylesh.buttonOutline]}>
-                            <Text style={stylesh.buttonOutlineText}>Agregar al carrito</Text>
+                            <Text style={stylesh.buttonOutlineText}>{i18n.t("Add-Car")}</Text>
                           </TouchableOpacity>
                         </View>   
                         </Fotter>

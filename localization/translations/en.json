@@ -17,5 +17,8 @@
     "Alert-Uploaded-Picture":"Uploaded image",
     "Alert-cuenta-creada":"Account created",
     "without address":"without address",
-    "without phone":"Without phone"
+    "without phone":"Without phone",
+    "placeholder-Quantity": "Quantity",
+    "Buy-Now": "Buy now",
+    "Add-Car": "Add to car"
 }

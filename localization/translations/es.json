@@ -17,5 +17,8 @@
     "Alert-Uploaded-Picture":"Imagen subida",
     "Alert-cuenta-creada":"Cuenta creada",
     "without address":"Sin dirección",
-    "without phone":"Sin teléfono"
+    "without phone":"Sin teléfono",
+    "placeholder-Quantity": "Cantidad",
+    "Buy-Now": "Comprar ahora",
+    "Add-Car": "Agregar a carrito"
 }

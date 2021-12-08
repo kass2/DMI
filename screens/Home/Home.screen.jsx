@@ -91,13 +91,13 @@ const HomePage = ({ route }) => {
               iconName = focused
                 ? 'camera-outline'
                 : 'camera-outline';
-            } else if (route.name === 'Navegar') {
+            } else if (route.name === 'Navegar' || route.name === 'Browse') {
               iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
-            }else if (route.name === 'Perfil') {
+            }else if (route.name === 'Perfil' || route.name === 'Profile') {
               iconName = focused ? 'ios-person' : 'ios-person';
-            }else if (route.name === 'favoritos') {
+            }else if (route.name === 'favoritos' || route.name === 'Favourites') {
               iconName = focused ? 'ios-heart' : 'ios-heart';
-            }else if (route.name === 'historial') {
+            }else if (route.name === 'historial' || route.name === 'Record') {
               iconName = focused ? 'albums' : 'albums';
             }
 
