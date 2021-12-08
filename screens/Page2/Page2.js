@@ -22,8 +22,8 @@ export default function Page2(props) {
   const [cell, setCell] = React.useState("")
   const [dataU, setArrayHolder] = React.useState([]);
   const [address, setAddress] = React.useState("")
-  const [Domicilio, setDom] = React.useState("Sin domicilio")
-  const [Telefono, setTel] = React.useState("Sin numero")
+  const [Domicilio, setDom] = React.useState(i18n.t("without address"))
+  const [Telefono, setTel] = React.useState(i18n.t("without phone"))
   const [pic, setPic] = React.useState(null)
   const navigation = useNavigation();
   
@@ -73,7 +73,7 @@ export default function Page2(props) {
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
           /* console.log(url) */
-          Alert.alert("Imagen subida");
+          Alert.alert(i18n.t("Alert-Uploaded-Picture"));
          writeUserData(url)
       });
     })

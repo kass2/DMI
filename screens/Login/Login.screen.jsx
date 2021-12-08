@@ -78,7 +78,7 @@ const LoginPage = () => {
      //   console.log(userCredentials.user.uid);
       //  setUID(userCredentials.user.uid);
         const user = userCredentials.user;
-        Alert.alert("Cuenta creada")
+        Alert.alert(i18n.t("Alert-cuenta-creada"))
       })
       .catch((error) => {
         // catch is a rejected promise
