@@ -32,7 +32,7 @@ export default function Page2(props) {
     var ref = storage.ref().child("images/" + imageName);
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
-          console.log(url)
+          /* console.log(url) */
           Alert.alert("Imagen subida");
       });
     })

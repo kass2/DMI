@@ -47,7 +47,7 @@ export default function favoritos(props) {
   renderItem={({item}) => 
 
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
-         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
                
                <Card >
                <Header>

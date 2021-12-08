@@ -2,14 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import {Animated, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image,KeyboardAvoidingView,} from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph } from 'react-native-paper';
-import { getDatabase, ref, set ,onValue, push} from "firebase/database";
+import { getDatabase, ref, set ,onValue, push, remove} from "firebase/database";
 import { auth, db } from "../../firebase";
+import { useRoute } from '@react-navigation/core';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/core"; 
 import { Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet';
 
 
-export default function Info(props) {
+
+
+export default function Info (props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
   const [pic, setPic] = React.useState(null)
@@ -17,49 +20,43 @@ export default function Info(props) {
   const [text, onChangeText] = React.useState("Useless Text");
   const [number, onChangeNumber] = React.useState(null);
   const [cantidad, setCantidad] = useState("");
-  const [email, setEmail] = useState("");
+  const { Clave, otheNav } = useRoute().params;
+  const { nave, otheNav2 } = useRoute().params;
   const [pwd, setPwd] = useState("");
+  const [Lalista, setArrayHolder] = React.useState([]);
+  var arr = []
   /* const navigation = props.navigation; */
 
   useEffect(() => {
-    console.log("page2", props)
+    console.log("page2", Clave);
+    getData();
   },[])
   
 
+  function getData(){
+    console.log("data")
+
+    const db = getDatabase();
+    const starCountRef = ref(db,"Productos/"+ Clave + '/');
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      snapshot.forEach(function(item) {
+        var itemVal = item.val();
+        console.log("dsadsadad",item)
+        arr.push(itemVal);
+        
+    });
+      setArrayHolder(arr);
+      console.log(Lalista);
+    });
+  }
+
+
   function limitador(str){
-    const fin = str.substring(0, 23);
+    const fin = str.substring(0, 20);
     
       return fin
   
-  }
-
- async function Gallery (props) {
-    let result = await ImagePicker.launchImageLibraryAsync()
-    //let result = await ImagePicker.launchImageLibraryAsync();
-    if (!result.cancelled) {
-      uploadImage(result.uri, "test-image")
-        .then(() => {
-         
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
-    }
-  }
-
-  async function Camera (params) {
-    let result = await ImagePicker.launchCameraAsync();
-    //let result = await ImagePicker.launchImageLibraryAsync();
-
-    if (!result.cancelled) {
-      uploadImage(result.uri)
-        .then(() => {
-         
-        })
-        .catch((error) => {
-          Alert.alert(error);
-        });
-    }
   }
 
   async function uploadImage(uri) {
@@ -76,61 +73,14 @@ export default function Info(props) {
     })
   }
 
-  const handleSignOut = () => {
-    auth
-      .signOut()
-      .then(() => {
-        navigation.replace('Login');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
-  };
 
-  const logout = async ()=>{
-    await firebase.auth().signOut();
-  }
+  /* const Atras = () => {
+    nave.replace('Home');
+  }; */
  
 return (
   <View style={stylesh.MainContainer}>
          
-    {/* <View  style={stylesh.MainContainer}>
-            <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
-            <Card style={{width: "100%", height: "100%"}}>
-              <Header>
-                   <ImageBackground source={require('../../assets/img/orange.png')} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
-               </Header>
-              <Fotter>
-                <Name>
-                  <Text style={{fontSize: 22}}>{limitador('Naranja')}</Text>
-                </Name>
-                <Text style={{fontSize: 22, textAlign: 'center'}}>{limitador('Marca: Campo')}</Text>
-                <Text style={{fontSize: 22, textAlign: 'center'}}>{limitador('Descripción:')}</Text>
-                <Desc>   
-                  <Text style={{color:"black",fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
-                </Desc>
-                <SafeAreaView>
-                  <TextInput
-                    style={stylesh.input}
-                    onChangeText={onChangeText}
-                    value={text}
-                  />
-                </SafeAreaView>
-                
-                <View style={stylesh.buttonContainer}>
-                  <TouchableOpacity style={stylesh.button}>
-                    <Text style={stylesh.buttonText}>Comprar ahora</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[stylesh.button, stylesh.buttonOutline]}>
-                    <Text style={stylesh.buttonOutlineText}>Agregar al carrito</Text>
-                  </TouchableOpacity>
-                </View>   
-                </Fotter>
-                <Prize style={{height: "10%"}}>
-                  <Text style={{fontSize: 27, color:"white"}} >$ 20.00 MXN</Text>
-                </Prize>
-            </Card>
-      </View> */}
 
               <KeyboardAvoidingView style={stylesh.Keycontainer} behavior="padding">
               <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", flex: 1 ,width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>   
@@ -140,16 +90,17 @@ return (
                     
                     <Card style={{width: "100%", height: "100%"}}>
                       <Header>
-                          <ImageBackground source={require('../../assets/img/orange.png')} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
+                          {/* <TouchableOpacity><Ionicons name="md-arrow-back" size={50} style={{marginTop:"5%", marginRight:"85%", color:"#dc7308"}}></Ionicons></TouchableOpacity> */}
+                          <ImageBackground source={{uri: Lalista[2]}} resizeMode='contain' style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                       </Header>
                       <Fotter>
                         <Name>
-                          <Text style={{fontSize: 22}}>{limitador('Naranja')}</Text>
+                          <Text style={{fontSize: 22}}>{Lalista[4]}</Text>
                         </Name>
-                        <Text style={{fontSize: 22, textAlign: 'center'}}>{limitador('Marca: Campo')}</Text>
-                        <Text style={{fontSize: 22, textAlign: 'center'}}>{limitador('Descripción:')}</Text>
+                        <Text style={{fontSize: 22, textAlign: 'center'}}>{'Marca: '+Lalista[3]}</Text>
+                        <Text style={{fontSize: 22, textAlign: 'center'}}>{'Descripción:'}</Text>
                         <Desc>   
-                          <Text style={{color:"black",fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
+                          <Text style={{color:"black",fontSize: 18, opacity: 0.3}}> {Lalista[6]} </Text>
                         </Desc>
                         <SafeAreaView>
                           <TextInput
@@ -184,7 +135,8 @@ return (
          
   );
 
-}
+} 
+
 
 const stylesh = StyleSheet.create({
   container: {

@@ -27,7 +27,7 @@ const NavBar = (props) => {
     animation: new Animated.Value(0),
   };
 
-  console.log("nav", props)
+  /* console.log("nav", props) */
 
   function componentDidMount() {
 
@@ -83,14 +83,14 @@ const NavBar = (props) => {
   const SearchBar = (props) => {
     const [text, onChangeText] = React.useState("");
 
-    console.log("Search", props)
+    /* console.log("Search", props) */
     function search(txtl){
 
       // console.log(    props.getdata      )
        let arr = []
    
         if(!txtl){
-         console.log("Vacio")
+        /*  console.log("Vacio") */
          getData()
    
        }else{
@@ -109,7 +109,7 @@ const NavBar = (props) => {
      }
 
      const handleKeypress = e => {   
-       console.log(e)
+       /* console.log(e) */
          if (e.keyCode === 13)
           {    console.log("Enter") 
                       } 

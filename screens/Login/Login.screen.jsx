@@ -24,14 +24,9 @@ const LoginPage = () => {
   // navigation is an instance of our current NavigationContainer and we access to it trough the useNavigation() custom hook
   const navigation = useNavigation();
 
-  // Use Effect is a hook that listen to side effects, we can use it in 3 ways:
-  // -Without dependency array: it will execute on each render
-  // -With an empty dependency array: it will execute only on the first render
-  // -With a dependency array with dependecies: it will execute when the dependecies change
-
   useEffect(() => {
     if(state){
-      console.log("Login",state.user)
+      /* console.log("Login",state.user) */
       navigation.navigate('Home',{itemId: state.user.uid, photoURL: state.user.photoURL, email: state.user.email, navi: navigation, phone: state.user.phoneNumber});
     }
   }, [state]); 
@@ -44,31 +39,6 @@ const LoginPage = () => {
       writeUserData();
     }
   },[credentials])
-  // This comments apply for both functions, you just need to change the name of the function called from auth
-  // We use two function(createUserWithEmailAndPassword,signInWithEmailAndPassword ) from the auth instance
-  // It receives email and password and creates or authenticate a new account on firebase
-
-  // This is a promise based function, so we can call it in two ways:
-  // -With a then/catch syntax (as we did in this app)
-  // -With an async/await aproach: (as below)
-  // try {
-  //   const userCredentials = await auth.createUserWithEmailAndPassword(
-  //     email,
-  //     pdw
-  //   );
-  //   const user = userCredentials.user;
-  //   console.log(user.email);
-  // } catch (error) {
-  //   alert(error.message);
-  // }
-  // in order to the last example to work the function must be declared with the async keyword:
-  // const handleSignup = async()=>{}
-
-  // A promise is a function tha will execute and return something in the future
-  // it has 3 posible status:
-  // - pending:  when the promise execute and we don't know the final status yet
-  // - fullfilled: when the promise executed correctly
-  // - rejected: when there is an error or we reject the promise because it didn't return the expected result
   
   const handleSignup = () => {
     auth
@@ -91,7 +61,7 @@ const LoginPage = () => {
       .then((userCredentials) => {
         // then is a fullfilled promise
         const user = userCredentials.user;
-        console.log(userCredentials)
+        /* console.log(userCredentials) */
         setStat(userCredentials);
       })
       .catch((error) => {
@@ -106,7 +76,7 @@ const LoginPage = () => {
       //displayName: "Jane Q. User",  
       photoURL: "../../assets/img/me.jpg"}).then(function()
        { 
-         console.log("Update")
+         /* console.log("Update") */
       }
     )}
 

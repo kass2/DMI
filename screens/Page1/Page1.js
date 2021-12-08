@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect ,setState } from "react";
 import {Animated, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ImageBackground, Keyframe, ToastAndroid, FlatList, TextInput, Alert, Image} from 'react-native';
-import { Avatar, Button, Title, Paragraph } from 'react-native-paper';
+import { Avatar, Button, Title, Paragraph, ProgressBar } from 'react-native-paper';
 import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -15,6 +15,35 @@ export default function Page1(props) {
   const renderItem = ({ item }) => (
     <Item title={item.name} />
   );
+
+
+  
+
+  useEffect(() => {
+   checkLike();
+  }, []);
+
+  function like(Clave) {
+    set(ref(db, 'Productos/'+ Clave + '/like/' + props.uid), {
+      id: props.uid
+    });
+  }
+
+  function Delete(Clave) {
+    set(ref(db, 'Productos/'+ Clave + '/like' + Clave), {
+      id: props.uid
+    });
+  }
+
+  function checkLike(){
+    for(var i=0;i<props.items.length;i++){
+     if(props.items[i].like){
+       console.log(props.items[i].like)
+      // for(var z=0; z<)
+     }
+
+    }
+  }
 
     
   function toggleBar(){
@@ -32,6 +61,10 @@ export default function Page1(props) {
   
   }
 
+  function Product(Clave) {
+    props.nave.navigate('Info',{Clave:Clave,nave:props.nave});
+  };
+
   return (
     
   <SafeAreaView style={stylesh.container}>
@@ -45,11 +78,14 @@ export default function Page1(props) {
   renderItem={({item}) => 
 
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
-         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
-               <Card >
+         
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
+               
+               <Card>
+               <TouchableOpacity onPress={Product.bind(this,item.Clave)} style={{width: "85%", height: "100%", left:0,position:'absolute',zIndex: 999,flex: 1}}></TouchableOpacity>
                <Header>
-               <TouchableOpacity><Ionicons name="heart" size={37} style={{marginTop:"5%", marginLeft:"85%", color:"#fdd700"}}></Ionicons></TouchableOpacity>
-                   <ImageBackground source={{uri: item.Imagen}} style={{width:"100%", height: "100%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
+               <TouchableOpacity onPress={like.bind(this,item.Clave)}><Ionicons name="heart" size={37} style={{marginTop:"5%", marginLeft:"85%", color:"#fdd700"}}></Ionicons></TouchableOpacity>
+                   <ImageBackground source={{uri: item.Imagen}} style={{width:"90%", height: "90%", borderRadius: "40px"}} resizeMode="contain"></ImageBackground>
                </Header>
                <Fotter>
                    <Name>
@@ -63,6 +99,7 @@ export default function Page1(props) {
                      <Text style={{fontSize: 27, color:"white"}} >$ {item.Precio}.00 MXN</Text>
                    </Prize>
          </Card>
+         
       </View>
   
     }

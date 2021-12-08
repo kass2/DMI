@@ -40,7 +40,7 @@ const HomePage = ({ route }) => {
       data: "asda"
      
     });
-    console.log()
+    
   }
 
   
@@ -50,7 +50,6 @@ const HomePage = ({ route }) => {
     setArrayHolder([])
    //writeUserData()
     getData()
-    console.log(itemId)
     //handleSignOut()
   }, []);
   
@@ -64,7 +63,7 @@ const HomePage = ({ route }) => {
       const data = snapshot.val();
       snapshot.forEach(function(item) {
         var itemVal = item.val();
-        console.log("dsadsadad",item)
+        
         arr.push(itemVal);
     });
 
@@ -72,13 +71,6 @@ const HomePage = ({ route }) => {
     });
   }
 
-  function LeftSwipeActions(){
-      console.log("asdads")
-  }
-
-  function rightSwipeActions(){
-      console.log("asdadd")
-  }
   return (
     <NavigationContainer independent={true}>
       
