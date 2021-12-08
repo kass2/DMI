@@ -23,6 +23,7 @@ const HomePage = ({ route }) => {
   const [photoURL, setPhoto ] = React.useState(route.params.photoURL)
   const { itemId, otherParams } = route.params;
   const { email, otheNav } = route.params;
+  const { phone, othePhone } = route.params;
 
   const { navi, otherEmail } = route.params;
   // We will make a simple call to auth.signOut() which is also a promise based function and if it fullfills
