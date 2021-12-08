@@ -18,7 +18,7 @@ const AgregarProducto = () => {
         <View style={{flexDirection:"column" , flex:1.4,   alignItems: "center",    justifyContent: "center", backgroundColor:'#A4CC00'}}>
          
             <Text style={{fontSize:40, color:'white'}}>
-            Agregando</Text>
+            {I18n.t('status')}</Text>
         </View>
         <View style={{flexDirection:"column", flex:1}}>
            <Image source={logo} style={{  height: 60,
