@@ -6,7 +6,7 @@ import { getDatabase, ref, set ,onValue, push} from "firebase/database";
 import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from "@react-navigation/core"; 
-
+import i18n from "../../localization/i18n"
 export default function favoritos(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [state, setStat] = React.useState(false)
@@ -59,7 +59,7 @@ export default function favoritos(props) {
     ref.put(blob).then(data => {
       data.ref.getDownloadURL().then(url => {
           /* console.log(url) */
-          Alert.alert("Imagen subida");
+          Alert.alert(i18n.t("Alert-Picture-Uploaded"));
          writeUserData(url)
       });
     })
@@ -86,13 +86,13 @@ return (
     <View  style={stylesh.MainContainer}>
             <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
         
-                 <Text style={{fontWeight:"bold", fontSize:30}}>Lista de Favoritos</Text>
+                 <Text style={{fontWeight:"bold", fontSize:30}}>{i18n.t("Title-Favourite-Interface")}</Text>
               <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                 <ImageBackground source={ !props.items ? require('../../assets/img/me.jpg' ): {uri: props.items}}  style={{position: "absolute", zIndex: 1, width: "100%", height: "100%"}}  style={{...stylesh.imageMe}} ></ImageBackground>
                 <Text style={{fontSize: 15, marginTop: 10, color:"#030303",fontWeight: "bold",textAlign:"center"}}>
                <Ionicons name="call" size={20}></Ionicons>
-               Nombre del Producto:
-               Precio: 
+               <Text> {i18n.t("Name-Product")}</Text>
+               <Text> {i18n.t("Price-Product")}</Text>
                <TouchableOpacity><Ionicons name="trash" size={20}></Ionicons></TouchableOpacity>
                </Text>
 

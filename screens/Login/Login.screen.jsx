@@ -118,13 +118,13 @@ const LoginPage = () => {
       <View style={styles.inputContainer}>
         {/* We have 2 text inputs that will set the state our our constants (email, pdw) */}
         <TextInput
-          placeholder="Email"
+          placeholder={i18n.t("placeholder-Email")}
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
         <TextInput
-          placeholder="Password"
+          placeholder={i18n.t("placeholder-Password")}
           value={pwd}
           onChangeText={(text) => setPwd(text)}
           style={styles.input}

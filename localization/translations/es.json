@@ -1,4 +1,18 @@
 {
     "option": "Ingresar",
-    "register": "Registrarse"
+    "register": "Registrarse",
+    "placeholder-Email":"Correo",
+    "placeholder-Password":"Contraseña",
+    "menu-Browse":"Navegar",
+    "menu-Profile":"Perfil",
+    "menu-Favourites":"Favoritos",
+    "menu-Record":"Historial",
+    "button-UploadPhoto":"Subir Foto",
+    "button-Logout":"Cerrar sesión",
+    "Name-Product":"Nombre del producto: ",
+    "Price-Product":"Precio: ",
+    "Title-Favourite-Interface":"Favoritos",
+    "Quantity-Product":"Cantidad: ",
+    "Title-Record-Interface":"Historial",
+    "Alert-Uploaded-Picture":"Imagen subida"
 }
