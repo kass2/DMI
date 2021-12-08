@@ -13,7 +13,7 @@ import Page1 from '../Page1/Page1'
 import Page2 from '../Page2/Page2'
 import Favoritos from '../Favoritos/Favoritos';
 import Historial from '../Historial/Historial';
-
+import i18n from "../../localization/i18n"
 const Tab = createBottomTabNavigator();
 
 const HomePage = ({ route }) => {
@@ -109,10 +109,10 @@ const HomePage = ({ route }) => {
           
         })}
       >
-        <Tab.Screen name="Navegar" >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
-        <Tab.Screen name="Perfil">{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi} uid={itemId}/>}</Tab.Screen>
-        <Tab.Screen name="favoritos">{(props) => <Favoritos{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
-        <Tab.Screen name="historial">{(props) => <Historial{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name={i18n.t("menu-Browse")} >{(props) => <Page1{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name={i18n.t("menu-Profile")}>{(props) => <Page2{...props} items={photoURL} photo={setPhoto} email={email} navi={navi} uid={itemId}/>}</Tab.Screen>
+        <Tab.Screen name={i18n.t("menu-Favourites")}>{(props) => <Favoritos{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
+        <Tab.Screen name={i18n.t("menu-Record")}>{(props) => <Historial{...props} items={Lalista} photo={photoURL} uid={itemId} searchItem={setArrayHolder} getdata={getData} nave={navi}/>}</Tab.Screen>
       </Tab.Navigator>
     </NavigationContainer>
   );

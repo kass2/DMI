@@ -47,7 +47,7 @@ export default function historial(props) {
   renderItem={({item}) => 
 
       <View style={{width: "100%", height: "100%", flex: 1, alignItems: "center"}}>
-         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
+         <ImageBackground source={require('../../media/images/fondo2.jpg')} style={{position: "absolute", zIndex: 1, width: "100%", height: "100%", opacity: 0.3}}></ImageBackground>
                
                <Card >
                <Header>
@@ -59,7 +59,7 @@ export default function historial(props) {
                      <Text style={{fontSize: 22}}>{limitador(item.Nombre)}</Text>
                    </Name>
                    <Desc>   
-                     <Text style={{fontSize: 18, opacity: 0.3}}>Cantidad:</Text>
+                     <Text style={{fontSize: 18, opacity: 0.3}}>  Un buen par de zapatos puede ser costoso si lo compras a precio regular</Text>
                    </Desc>   
                </Fotter>
                    <Prize>

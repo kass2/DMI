@@ -1,0 +1,21 @@
+{
+    "option": "Loging",
+    "register": "Register",
+    "placeholder-Email":"Email",
+    "placeholder-Password":"Password",
+    "menu-Browse":"Browse",
+    "menu-Profile":"Profile",
+    "menu-Favourites":"Favourites",
+    "menu-Record":"Record",
+    "button-UploadPhoto":"Upload Picture",
+    "button-Logout":"Logout",
+    "Name-Product":"Name product: ",
+    "Price-Product":"Price: ",
+    "Title-Favourite-Interface":"Favourites",
+    "Quantity-Product":"Quantity: ",
+    "Title-Record-Interface":"Record",
+    "Alert-Uploaded-Picture":"Uploaded image",
+    "Alert-cuenta-creada":"Account created",
+    "without address":"without address",
+    "without phone":"Without phone"
+}

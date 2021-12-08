@@ -7,6 +7,8 @@ import { auth, db } from "../../firebase";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Card, Header, Fotter, Desc, Prize, Name} from '../../StyleComponents/stylesSheet'
 import NavBar from '../navBar/NavBar'
+
+
 export default function Page1(props) {
   const [value, onChangeTexto] = React.useState('Escribe aqui...');
   const [states, setStat] = React.useState(false)

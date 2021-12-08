@@ -14,7 +14,7 @@ import {
 } from "react-native";
 // auth is an instance of firebase.auth() and it is imported from the firebase.js file
 import logo from "../../media/images/fod.png";
-/* import I18n from "../../i18n"; */
+import i18n from "../../localization/i18n"
 const LoginPage = () => {
   // Our app will contain 2 states, the email and password with an empty string as initial value
   const [email, setEmail] = useState("");
@@ -48,7 +48,7 @@ const LoginPage = () => {
      //   console.log(userCredentials.user.uid);
       //  setUID(userCredentials.user.uid);
         const user = userCredentials.user;
-        Alert.alert("Cuenta creada")
+        Alert.alert(i18n.t("Alert-cuenta-creada"))
       })
       .catch((error) => {
         // catch is a rejected promise
@@ -88,13 +88,13 @@ const LoginPage = () => {
       <View style={styles.inputContainer}>
         {/* We have 2 text inputs that will set the state our our constants (email, pdw) */}
         <TextInput
-          placeholder="Email"
+          placeholder={i18n.t("placeholder-Email")}
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={styles.input}
         />
         <TextInput
-          placeholder="Password"
+          placeholder={i18n.t("placeholder-Password")}
           value={pwd}
           onChangeText={(text) => setPwd(text)}
           style={styles.input}
@@ -104,13 +104,12 @@ const LoginPage = () => {
       {/* We have 2 buttons that will execute the functions above) */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={handleLogin} style={styles.button}>
-          <Text style={styles.buttonText}> {'Login'}</Text>
+          <Text style={styles.buttonText}> {i18n.t("option")}</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handleSignup}
-          style={[styles.button, styles.buttonOutline]}
-        >
-          <Text style={styles.buttonOutlineText}>{'Register'}</Text>
+          style={[styles.button, styles.buttonOutline]}>
+          <Text style={styles.buttonOutlineText}>{i18n.t("register")}</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
