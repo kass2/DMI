@@ -19,9 +19,7 @@ export default function Page1(props) {
 
   
 
-  useEffect(() => {
-   checkLike();
-  }, []);
+  
 
   function like(Clave) {
     set(ref(db, 'Productos/'+ Clave + '/like/' + props.uid), {
@@ -35,15 +33,21 @@ export default function Page1(props) {
     });
   }
 
-  function checkLike(){
+  /* function checkLike(){
+    var arr = []
     for(var i=0;i<props.items.length;i++){
      if(props.items[i].like){
-       console.log(props.items[i].like)
-      // for(var z=0; z<)
+          props.items[i].like.forEach(function(item) {
+              var itemVal = item.val();
+              console.log(itemVal)
+          
+          });
+     
+     
      }
 
     }
-  }
+  } */
 
     
   function toggleBar(){
@@ -62,7 +66,7 @@ export default function Page1(props) {
   }
 
   function Product(Clave) {
-    props.nave.navigate('Info',{Clave:Clave,nave:props.nave});
+    props.nave.navigate('Info',{Clave:Clave,nave:props.nave,uid:props.uid});
   };
 
   return (

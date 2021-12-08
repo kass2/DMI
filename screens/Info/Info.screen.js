@@ -21,7 +21,7 @@ export default function Info (props) {
   const [number, onChangeNumber] = React.useState(null);
   const [cantidad, setCantidad] = useState("");
   const { Clave, otheNav } = useRoute().params;
-  const { nave, otheNav2 } = useRoute().params;
+  const { uid, otheNav2 } = useRoute().params;
   const [pwd, setPwd] = useState("");
   const [Lalista, setArrayHolder] = React.useState([]);
   var arr = []
@@ -45,9 +45,17 @@ export default function Info (props) {
         console.log("dsadsadad",item)
         arr.push(itemVal);
         
-    });
+    })
       setArrayHolder(arr);
       console.log(Lalista);
+      setTimeout(() => {Historial(arr)}, 2000)
+      
+    });
+  }
+
+  function Historial(arr) {
+    push(ref(db, 'Usuarios/'+ uid + '/historial/ '), {
+      array: arr
     });
   }
 
